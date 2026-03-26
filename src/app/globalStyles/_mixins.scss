@@ -1,0 +1,85 @@
+@use "sass:math";
+
+// Мінімальна ширина сторінки
+$minWidth: 320;
+// Ширина полотна (макету)
+$maxWidth: 1920;
+// Ширина обмежуючого контейнера (0 = немає обмеження)
+$maxWidthContainer: 1272;
+// Загальний відступ у контейнера
+// (30 = по 15px ліворуч і праворуч, 0 = немає відступу)
+$containerPadding: 30;
+
+// Ширина спрацьовування першого брейкпоінту
+$containerWidth: $maxWidthContainer + $containerPadding;
+
+// Брейк-поїнти
+$pc: $containerWidth; // ПК, ноутбуки, деякі планшети у горизонтальному положенні
+$tablet: 991.98; // Планшети, деякі телефони в горизонтальному положенні
+$mobile: 767.98; // Телефони L
+$mobileSmall: 479.98; // Телефони S
+
+// Тип адаптива:
+// 1 = чуйність (у контейнера немає брейкпоінтів),
+// 2 = по брейк-поїнт (контейнер змінює свою ширину по брейк-поїнт)
+$responsiveType: 1;
+
+//Percent
+@function percent($px, $from: 100) {
+	$result: math.div($px, $from) * 100%;
+	@return $result;
+}
+//REM
+@function toRem($px, $current: 16) {
+	$result: math.div($px, $current) + rem;
+	@return $result;
+}
+//EM
+@function toEm($px, $current: 16) {
+	$result: math.div($px, $current) + em;
+	@return $result;
+}
+
+// Адаптивна властивість (clamp)
+@mixin adaptiveValue($property, $startSize, $minSize: $minSize, $keepSize: 0, $widthFrom: $containerWidth, $widthTo: $minWidth) {
+	@if ($startSize == 0) {
+		$startSize: 0.000001;
+	}
+	@if ($minSize == 0) {
+		$minSize: 0.000001;
+	}
+
+	@if ($widthFrom == $containerWidth and $maxWidthContainer == 0) {
+		$widthFrom: $maxWidth;
+	}
+
+	// Брейкпоінти в em
+	$widthFromMedia: toEm($widthFrom);
+	$widthToMedia: toEm($widthTo);
+
+	// Розрахунок коефіцієнта нахилу
+	$slope: math.div(($startSize - $minSize), ($widthFrom - $widthTo));
+	$yIntersection: -$widthTo * $slope + $minSize;
+
+	$flyValue: calc(#{toRem($yIntersection)} + #{$slope * 100}vw);
+	$propertyValue: clamp(#{toRem($minSize)}, #{$flyValue}, #{toRem($startSize)});
+
+	// Значення при >= max
+	@if $keepSize != 1 and $keepSize != 3 {
+		@media (min-width: $widthFromMedia) {
+			#{$property}: #{toRem($startSize)};
+		}
+	}
+
+	// Адаптивна зона
+	@media (min-width: $widthToMedia) and (max-width: $widthFromMedia) {
+		#{$property}: #{$propertyValue};
+	}
+
+	// Значення при <= min
+	@if $keepSize != 1 and $keepSize != 2 {
+		@media (max-width: $widthToMedia) {
+			#{$property}: #{toRem($minSize)};
+		}
+	}
+}

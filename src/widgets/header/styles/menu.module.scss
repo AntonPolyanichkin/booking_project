@@ -1,0 +1,104 @@
+@use "@/app/globalStyles/_var.scss" as *;
+.menu {
+	color: $menuTextColorGray;
+	padding: 1.25rem;
+	min-height: 6.25rem;
+	width: 100%;
+	.list {
+		min-height: 100px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 0.625rem;
+		cursor: pointer;
+		// &__link::before {
+		// 	content: "";
+		// 	height: 1.5625rem;
+		// 	width: 1.5625rem;
+		// 	background-size: contain;
+		// 	background-position: center;
+		// }
+		&__element:not(:last-of-type) {
+			margin-bottom: 0.3125rem;
+		}
+
+		&__element:nth-child(1) {
+			& .list__link::before {
+				background: url("@/shared/ui/icons/calendar-icon-white.svg") no-repeat;
+				content: "";
+				height: 1.5625rem;
+				width: 1.5625rem;
+				background-size: contain;
+				background-position: center;
+			}
+			& .list__link-active::before {
+				background: url("@/shared/ui/icons/calendar-icon-black.svg") no-repeat;
+				content: "";
+				height: 1.5625rem;
+				width: 1.5625rem;
+				background-size: contain;
+				background-position: center;
+			}
+		}
+		&__element:nth-child(2) {
+			& .list__link::before {
+				background: url("@/shared/ui/icons/notes-icon-white.svg") no-repeat;
+				content: "";
+				height: 1.5625rem;
+				width: 1.5625rem;
+				background-size: contain;
+				background-position: center;
+			}
+			& .list__link-active::before {
+				background: url("@/shared/ui/icons/notes-icon-black.svg") no-repeat;
+				content: "";
+				height: 1.5625rem;
+				width: 1.5625rem;
+				background-size: contain;
+				background-position: center;
+			}
+		}
+		&__element:nth-child(3) {
+			& .list__link::before {
+				background: url("@/shared/ui/icons/statistics-icon-white.svg") no-repeat;
+				content: "";
+				height: 1.5625rem;
+				width: 1.5625rem;
+				background-size: contain;
+				background-position: center;
+			}
+			& .list__link-active::before {
+				background: url("@/shared/ui/icons/statistics-icon-black.svg") no-repeat;
+				content: "";
+				height: 1.5625rem;
+				width: 1.5625rem;
+				background-size: contain;
+				background-position: center;
+			}
+		}
+		&__link {
+			width: 100%;
+			padding: 0.625rem;
+			display: flex;
+			align-items: center;
+			gap: 0.625rem;
+			transition:
+				background 0.2s,
+				color 0.2s;
+			&:hover {
+				color: $menuTextColorWhite;
+				background-color: rgba(255, 255, 255, 0.3);
+				transition:
+					background 0.5s,
+					color 0.2s;
+			}
+			&-active {
+				background: $menuTextColorWhite;
+			}
+			&-active:hover {
+				background-color: $menuTextColorWhite;
+				color: $menuTextColorGray;
+			}
+		}
+	}
+}

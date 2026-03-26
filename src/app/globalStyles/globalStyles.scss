@@ -1,0 +1,15 @@
+@use "_reset.scss";
+@use "_var.scss";
+body {
+	background-color: #fff;
+	&.scroll-lock {
+		overflow: hidden;
+		touch-action: none;
+		overscroll-behavior: none;
+	}
+}
+[class*="__container"] {
+	padding-left: 0.9375rem;
+	padding-right: 0.9375rem;
+	margin: 0 auto;
+}
