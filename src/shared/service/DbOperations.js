@@ -1,6 +1,5 @@
-import { collection, doc, getDocs, getDoc, addDoc, deleteDoc, updateDoc, query, orderBy, limit, startAfter } from "firebase/firestore/lite";
+import { collection, doc, getDocs, getDoc, addDoc, deleteDoc, updateDoc, query, orderBy, limit, startAfter, setDoc } from "firebase/firestore/lite";
 import db from "../config/firebase/firebase-config";
-
 
 class DbOperations {
   constructor(name) {
@@ -42,6 +41,11 @@ class DbOperations {
   async getById(id) {
     const snap = await getDoc(doc(this.collectionRef, id));
     return { id: snap.id, ...snap.data() };
+  }
+
+  async setWithId(id, data) {
+    await setDoc(doc(this.collectionRef, id), data);
+    return true;
   }
 
   async add(data) {
