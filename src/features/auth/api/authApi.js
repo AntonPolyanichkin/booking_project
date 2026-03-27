@@ -82,7 +82,6 @@ export const authApi = createApi({
     logout: builder.mutation({
       async queryFn() {
         try {
-          //Виконати вихід з використанянм Firebase
           const auth = getAuth();
           await signOut(auth);
           return { data: true };
