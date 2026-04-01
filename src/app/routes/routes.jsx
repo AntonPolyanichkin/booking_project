@@ -4,8 +4,13 @@ import MainLayout from "@/widgets/mainLayout/MainLayout";
 import Notes from "@/pages/notes/Notes";
 import Statistics from "@/pages/statistics/Statistics";
 import NotFound from "@/pages/NotFound";
+import Login from "@/pages/loginPage/Login";
 
 export const routes = [
+	{
+		path: "/login",
+		element: <Login/>
+	},
   {
     path: "/",
     element: <MainLayout />,

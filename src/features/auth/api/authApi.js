@@ -1,7 +1,6 @@
-import { role } from "@/app/routes/role/role";
 import DbOperations from "@/shared/service/DbOperations";
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query";
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 
 function createPlainUserObj(user) {
   if (!user) {
@@ -55,7 +54,7 @@ export const authApi = createApi({
       async queryFn({ email, password }) {
         try {
           const auth = getAuth();
-          const result = createUserWithEmailAndPassword(auth, email, password);
+          const result = await createUserWithEmailAndPassword(auth, email, password);
           const userDb = new DbOperations("users");
           await userDb.setWithId(result.user.uid, createPlainUserObj(result.user));
           const userData = await userDb.getById(result.user.uid);
@@ -73,7 +72,7 @@ export const authApi = createApi({
           if (!user) return { error: { message: "Not authenticated" } };
           const usersDb = new DbOperations("users");
           const userData = await usersDb.getById(user.uid);
-          return { data: { ...mapFirebaseUser(user), ...userData } };
+          return { data: { ...createPlainUserObj(user), ...userData } };
         } catch (error) {
           return { error: { message: error.message } };
         }
@@ -92,3 +91,5 @@ export const authApi = createApi({
     }),
   }),
 });
+
+export const { useLoginMutation, useGoogleAuthMutation, useSignUpMutation, useRefreshMutation, useLogoutMutation } = authApi;

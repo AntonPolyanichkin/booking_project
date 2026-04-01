@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { authApi } from "./authApi";
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
   name: "authSlice",
   initialState: {
     user: null,
@@ -18,16 +18,16 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(isAnyOf(authApi.endpoints.login.matchPending, authApi.endpoints.googleLogin.matchPending, authApi.endpoints.signUp.matchPending), (state) => {
+      .addMatcher(isAnyOf(authApi.endpoints.login.matchPending, authApi.endpoints.googleAuth.matchPending, authApi.endpoints.signUp.matchPending), (state) => {
         state.loading = true;
-        state.error = null;
+        state.error = false;
       })
       .addMatcher(
         isAnyOf(
           authApi.endpoints.login.matchFulfilled,
 
           authApi.endpoints.refresh.matchFulfilled,
-          authApi.endpoints.googleLogin.matchFulfilled,
+          authApi.endpoints.googleAuth.matchFulfilled,
           authApi.endpoints.signUp.matchFulfilled,
         ),
         (state, action) => {
@@ -35,7 +35,7 @@ const authSlice = createSlice({
           state.user = action.payload;
         },
       )
-      .addMatcher(isAnyOf(authApi.endpoints.login.matchRejected, authApi.endpoints.refresh.matchRejected, authApi.endpoints.googleLogin.matchRejected, authApi.endpoints.signUp.matchRejected), (state, action) => {
+      .addMatcher(isAnyOf(authApi.endpoints.login.matchRejected, authApi.endpoints.refresh.matchRejected, authApi.endpoints.googleAuth.matchRejected, authApi.endpoints.signUp.matchRejected), (state, action) => {
         state.loading = false;
         state.error = action.error?.message || "Auth error";
       })
@@ -44,3 +44,6 @@ const authSlice = createSlice({
       });
   },
 });
+
+export const { setUser, clearUser } = authSlice.actions;
+export default authSlice.reducer;
