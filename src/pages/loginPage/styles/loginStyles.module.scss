@@ -1,0 +1,104 @@
+@use "@/app/globalStyles/_var.scss" as *;
+@use "@/app/globalStyles/_mixins.scss" as *;
+.login {
+	&__container {
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	&__content {
+		display: flex;
+		width: 100%;
+		flex-grow: 1;
+	}
+	&__about {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 2rem;
+
+		color: #fff;
+		background-color: #000;
+	}
+	&__form-container {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		padding: 2rem;
+	}
+}
+.container-form-inside {
+	// width: 100%;
+	max-width: 25rem;
+	margin: 0 auto;
+}
+.about-info {
+	&__title {
+		@include adaptiveValue("font-size", 25, 15);
+		line-height: 1.2;
+	}
+	&__main-text {
+		@include adaptiveValue("font-size", 40, 30);
+		line-height: 1.2;
+		margin-bottom: 1.875rem;
+	}
+	&__text {
+		color: $menuTextColorGray;
+		@include adaptiveValue("font-size", 20, 15);
+		line-height: 1.2;
+	}
+}
+.about-benefits {
+	&__line {
+		height: 0.0625rem;
+		width: 100%;
+		background-color: $menuTextColorGray;
+		opacity: 0.3;
+		margin-bottom: 1.25rem;
+	}
+	&__container {
+		width: 100%;
+	}
+}
+.list {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+	gap: 0.625rem;
+	&__item-statistics {
+		@include adaptiveValue("font-size", 20, 15);
+		line-height: 1.2;
+		margin-bottom: 0.625rem;
+	}
+	&__item-text {
+		@include adaptiveValue("font-size", 15, 10);
+		color: $menuTextColorGray;
+		line-height: 1.2;
+	}
+}
+
+.container-form {
+	&__title-wrapper{
+margin-bottom: 1.875rem;
+	}
+	&__title {
+		@include adaptiveValue("font-size", 30, 20);
+		line-height: 1.2;
+		font-weight: 500;
+		@include adaptiveValue("margin-bottom", 10, 5);
+	}
+	&__text {
+		color: $menuTextColorGray;
+		@include adaptiveValue("font-size", 20, 15);
+	}
+}
+.form{
+	height: 18.75rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}

@@ -2,6 +2,7 @@
 @use "_var.scss";
 body {
 	background-color: #fff;
+	font-family: "Inter", sans-serif;
 	&.scroll-lock {
 		overflow: hidden;
 		touch-action: none;

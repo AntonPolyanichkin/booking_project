@@ -78,6 +78,7 @@ textarea {
 
 body {
   background-color: #fff;
+  font-family: "Inter", sans-serif;
 }
 body.scroll-lock {
   overflow: hidden;
