@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import style from "./styles/loginStyles.module.scss";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,11 +6,38 @@ import { formValidation } from "./schema/yupSchema";
 function Login() {
   const userEmail = useId();
   const userPassword = useId();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [placeholder, setPlaceholder] = useState("••••••••");
+const intervalRef = useRef(null);
+
+const startAnimation = () => {
+    const dots = ["•", "••", "•••", "••••", "•••••", "••••••", "•••••••", "••••••••", ""];
+    let i = 0;
+    intervalRef.current = setInterval(() => {
+        setPlaceholder(dots[i]);
+        i = (i + 1) % dots.length;
+    }, 200);
+};
+
+const stopAnimation = () => {
+    clearInterval(intervalRef.current);
+    setPlaceholder("");
+};
+
+useEffect(() => {
+    startAnimation();
+    return () => clearInterval(intervalRef.current);
+}, []);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(formValidation) });
+  const handleLogin = {
+	
+  }
   return (
     <section className={style.login}>
       <div className={style["login__container"]}>
@@ -53,16 +80,17 @@ function Login() {
                 <h2 className={style["container-form__title"]}>Вхід у систему</h2>
                 <p className={style["container-form__text"]}>Введіть облікові дані для доступу</p>
               </div>
-              <form className={style.form}>
-                <label htmlFor={userEmail} className={style.form__label}>
-                  Пошта
+              <form className={style.form} onSubmit={handleSubmit()}>
+                <label className={style.form__label}>
+                  <p>Пошта</p>
+                  <input type="email" className={style.form__input} {...register("email")} placeholder="somemail@gmail.com" />
                 </label>
-                <input type="email" id={userEmail} className={style.form__input} {...register("email")} placeholder="somemail@gmail.com" />
                 {errors.email && <p className={style.form__error}>{errors.email.message}</p>}
-                <label htmlFor={userPassword} className={style.form__label}>
-                  Пароль
+                <label className={style.form__label}>
+                  <p>Пароль</p>
+                  <input type="password" className={style.form__input} {...register("password")} placeholder={placeholder} onFocus={stopAnimation}
+    onBlur={startAnimation}/>
                 </label>
-                <input type="password" id={userPassword} className={style.form__input} {...register("password")} />
                 {errors.password && <p className={style.form__error}>{errors.password.message}</p>}
                 <button type="submit" className={style.form__btn}>
                   Увійти

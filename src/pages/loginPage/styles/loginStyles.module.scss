@@ -82,8 +82,8 @@
 }
 
 .container-form {
-	&__title-wrapper{
-margin-bottom: 1.875rem;
+	&__title-wrapper {
+		margin-bottom: 1.875rem;
 	}
 	&__title {
 		@include adaptiveValue("font-size", 30, 20);
@@ -96,9 +96,37 @@ margin-bottom: 1.875rem;
 		@include adaptiveValue("font-size", 20, 15);
 	}
 }
-.form{
-	height: 18.75rem;
+.form {
+	height: 12.5rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	&__label {
+		& p {
+			color: #000;
+			font-size: 0.9375rem;
+			margin-bottom: .3125rem;
+		}
+		& input{
+			padding: .625rem;
+			outline: .0625rem solid rgba(0, 0, 0, 0.3);
+			color: $menuTextColorGray;
+		}
+		margin-bottom: .625rem;
+	}
+	&__error{
+		color: $menuTextColorGray;
+		@include adaptiveValue("font-size", 15, 10);
+		line-height: 1.2;
+		margin-bottom: .625rem;
+	}
+	&__btn{
+		color: #fff;
+		padding: .625rem;
+		background: #000;
+		transition: 0.3s;
+		&:hover{
+			background-color: #474545;
+		}
+	}
 }
