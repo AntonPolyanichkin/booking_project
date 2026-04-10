@@ -6,38 +6,36 @@ import { formValidation } from "./schema/yupSchema";
 function Login() {
   const userEmail = useId();
   const userPassword = useId();
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [placeholder, setPlaceholder] = useState("••••••••");
-const intervalRef = useRef(null);
+  const intervalRef = useRef(null);
 
-const startAnimation = () => {
+  const startAnimation = () => {
     const dots = ["•", "••", "•••", "••••", "•••••", "••••••", "•••••••", "••••••••", ""];
     let i = 0;
     intervalRef.current = setInterval(() => {
-        setPlaceholder(dots[i]);
-        i = (i + 1) % dots.length;
+      setPlaceholder(dots[i]);
+      i = (i + 1) % dots.length;
     }, 200);
-};
+  };
 
-const stopAnimation = () => {
+  const stopAnimation = () => {
     clearInterval(intervalRef.current);
     setPlaceholder("");
-};
+  };
 
-useEffect(() => {
+  useEffect(() => {
     startAnimation();
     return () => clearInterval(intervalRef.current);
-}, []);
+  }, []);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(formValidation) });
-  const handleLogin = {
-	
-  }
+  const handleLogin = {};
   return (
     <section className={style.login}>
       <div className={style["login__container"]}>
@@ -83,13 +81,12 @@ useEffect(() => {
               <form className={style.form} onSubmit={handleSubmit()}>
                 <label className={style.form__label}>
                   <p>Пошта</p>
-                  <input type="email" className={style.form__input} {...register("email")} placeholder="somemail@gmail.com" />
+                  <input type="email" className={style.form__input} {...register("email")} placeholder="somemail@gmail.com" value={email} />
                 </label>
                 {errors.email && <p className={style.form__error}>{errors.email.message}</p>}
                 <label className={style.form__label}>
                   <p>Пароль</p>
-                  <input type="password" className={style.form__input} {...register("password")} placeholder={placeholder} onFocus={stopAnimation}
-    onBlur={startAnimation}/>
+                  <input type="password" className={style.form__input} {...register("password")} placeholder={placeholder} onFocus={stopAnimation} onBlur={startAnimation} value={password} />
                 </label>
                 {errors.password && <p className={style.form__error}>{errors.password.message}</p>}
                 <button type="submit" className={style.form__btn}>
