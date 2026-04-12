@@ -25,8 +25,12 @@ export const authApi = createApi({
           const auth = getAuth();
           const result = await signInWithEmailAndPassword(auth, email, password);
           const userDb = new DbOperations("users");
-
-          return { data: { ...createPlainUserObj(result.user), ...userData } };
+          const userData = await userDb.getById(result.user.uid);
+			 if(!userData){
+				console.log("Юзера нема в базі");
+				
+			 }
+          return { data: { ...createPlainUserObj(result.user), ...(userData ||{}) } };
         } catch (error) {
           return { error: { message: error.message } };
         }

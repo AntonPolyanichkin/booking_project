@@ -40,7 +40,12 @@ class DbOperations {
 
   async getById(id) {
     const snap = await getDoc(doc(this.collectionRef, id));
-    return { id: snap.id, ...snap.data() };
+	 if(!snap.exists()){
+		return null
+	 }
+	 else{
+		return {id: snap.id, ...snap.data()}
+	 }
   }
 
   async setWithId(id, data) {

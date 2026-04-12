@@ -123,10 +123,18 @@
 	&__btn{
 		color: #fff;
 		padding: .625rem;
+		margin-bottom: .625rem;
 		background: #000;
 		transition: 0.3s;
 		&:hover{
 			background-color: #474545;
 		}
 	}
+}
+.error{
+	color: #000;
+	font-size: 1.25rem;
+	line-height: 1.2;
+	padding: .625rem;
+	outline: .0625rem solid black;
 }

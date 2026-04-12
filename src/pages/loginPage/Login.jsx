@@ -4,11 +4,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { formValidation } from "./schema/yupSchema";
 import { useLogin } from "@/features/auth/model/useLogin";
+import { useNavigate } from "react-router";
 function Login() {
   const [placeholder, setPlaceholder] = useState("••••••••");
   const intervalRef = useRef(null);
   const { handleLoginApi, isLoading, error } = useLogin();
-
+	const navigate = useNavigate()
   const startAnimation = () => {
     const dots = ["•", "••", "•••", "••••", "•••••", "••••••", "•••••••", "••••••••", ""];
     let i = 0;
@@ -34,10 +35,9 @@ function Login() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(formValidation) });
 
-  const handleLogin = (credentials) => {
+  const handleLogin = async (credentials) => {
     console.log(credentials);
-
-    handleLoginApi(credentials);
+    await handleLoginApi(credentials);
   };
 
   return (
@@ -97,6 +97,7 @@ function Login() {
                   Увійти
                 </button>
               </form>
+				  {error && <p className={style.error}>Користувач не зареєстрований в системі</p>}
             </div>
           </div>
         </div>
