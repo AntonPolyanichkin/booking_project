@@ -1,5 +1,5 @@
 import DbOperations from "@/shared/service/DbOperations";
-import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query";
+import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 
 function createPlainUserObj(user) {
@@ -25,7 +25,7 @@ export const authApi = createApi({
           const auth = getAuth();
           const result = await signInWithEmailAndPassword(auth, email, password);
           const userDb = new DbOperations("users");
-          const userData = await userDb.getById(result.user.uid);
+
           return { data: { ...createPlainUserObj(result.user), ...userData } };
         } catch (error) {
           return { error: { message: error.message } };

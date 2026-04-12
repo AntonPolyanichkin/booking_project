@@ -1,16 +1,18 @@
-const { useLoginMutation } = require("../api/authApi");
+import { useNavigate } from "react-router";
+import { useLoginMutation } from "../api/authApi";
 
-function useLogin() {
-  const [loginMutation, { isLoading, error }] = useLoginMutation();
-
-  async function login(credentials) {
+export function useLogin() {
+  const [login, { isLoading, error }] = useLoginMutation();
+  const navigation = useNavigate();
+  async function handleLoginApi(credentials) {
     try {
-      const result = await loginMutation(credentials).unwrap;
+      const result = await login(credentials).unwrap();
+      navigation("/calendar");
       return result;
     } catch (error) {
       console.log(error);
     }
   }
 
-  return { isLoading, error };
+  return { handleLoginApi, isLoading, error };
 }
