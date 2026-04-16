@@ -1,14 +1,19 @@
+import { frontRoutes } from "@/app/routes/frontRoutes/frontRoutes";
+import { routes as allRoutes } from "@/app/routes/routes";
 import { useSelector } from "react-redux";
-import { Navigate, Outlet, useNavigate } from "react-router";
+import { Navigate, Outlet } from "react-router";
 
 function ProtectedRoute() {
-  const navigate = useNavigate();
-  const currentUser = useSelector((state) => state.authSlice.user);
-  const loading = useSelector((state) => state.authSlice.loading);
-  if (loading) {
-    return <div>Loading...</div>;
+  const user = useSelector((state) => state.authSlice.user);
+  const routes = allRoutes[1]?.children ?? [];
+
+  if (!user) {
+    return <Navigate to={frontRoutes.loginPage} replace />;
+  } else {
+    if (routes.meta?.roles.length > 0 && !routes.meta?.roles.includes(user.role)) {
+      return <Navigate to={frontRoutes.forbiddenPage} replace />;
+    }
   }
-  if (!currentUser) return <Navigate to="/login" replace />;
   return <Outlet />;
 }
 

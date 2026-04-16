@@ -5,38 +5,44 @@ import Notes from "@/pages/notes/Notes";
 import Statistics from "@/pages/statistics/Statistics";
 import NotFound from "@/pages/NotFound";
 import Login from "@/pages/loginPage/Login";
+import { frontRoutes } from "./frontRoutes/frontRoutes";
+import ProtectedRoute from "@/shared/ui/components/ProtectedRoute";
 
 export const routes = [
-	{
-		path: "/login",
-		element: <Login/>
-	},
+  {
+    path: frontRoutes.loginPage,
+    element: <Login />,
+  },
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
-        path: "/calendar",
+        path: frontRoutes.calendarPage,
         element: <CalendarPage />,
-        handle: {
+        meta: {
           title: "Календар",
           isInMenu: true,
           roles: [role.admin, role.manager],
         },
       },
       {
-        path: "/notes",
+        path: frontRoutes.notesPage,
         element: <Notes />,
-        handle: {
+        meta: {
           title: "Записи",
           isInMenu: true,
           roles: [role.admin, role.manager],
         },
       },
       {
-        path: "/statistics",
+        path: frontRoutes.statisticsPage,
         element: <Statistics />,
-        handle: {
+        meta: {
           title: "Статистика",
           isInMenu: true,
           roles: [role.admin],
@@ -45,7 +51,7 @@ export const routes = [
       {
         path: "*",
         element: <NotFound />,
-        handle: {
+        meta: {
           isInMenu: false,
           roles: [role.admin, role.manager],
         },

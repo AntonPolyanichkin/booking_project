@@ -1,6 +1,7 @@
 import DbOperations from "@/shared/service/DbOperations";
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { setUser } from "./authSlice";
 
 function createPlainUserObj(user) {
   if (!user) {
@@ -26,11 +27,10 @@ export const authApi = createApi({
           const result = await signInWithEmailAndPassword(auth, email, password);
           const userDb = new DbOperations("users");
           const userData = await userDb.getById(result.user.uid);
-			 if(!userData){
-				console.log("Юзера нема в базі");
-				
-			 }
-          return { data: { ...createPlainUserObj(result.user), ...(userData ||{}) } };
+          if (!userData) {
+            console.log("Юзера нема в базі");
+          }
+          return { data: { ...createPlainUserObj(result.user), ...(userData || {}) } };
         } catch (error) {
           return { error: { message: error.message } };
         }
@@ -68,15 +68,21 @@ export const authApi = createApi({
         }
       },
     }),
-    refresh: builder.mutation({
+    refresh: builder.query({
       async queryFn() {
         try {
           const auth = getAuth();
-          const user = auth.currentUser;
-          if (!user) return { error: { message: "Not authenticated" } };
-          const usersDb = new DbOperations("users");
-          const userData = await usersDb.getById(user.uid);
-          return { data: { ...createPlainUserObj(user), ...userData } };
+          const user = await new Promise((resolve, reject) => {
+            const unSub = onAuthStateChanged(
+              auth,
+              (user) => {
+                unSub();
+                resolve(user);
+              },
+              reject,
+            );
+          });
+          return { data: user ?? null };
         } catch (error) {
           return { error: { message: error.message } };
         }

@@ -10,8 +10,9 @@ export function useLogin() {
   async function handleLoginApi(credentials) {
     try {
       const result = await login(credentials).unwrap();
+      console.log(result);
       navigation("/calendar");
-      setUser(...result);
+      setUser({ id: result.id, email: result.email, role: result.role });
       return result;
     } catch (error) {
       setError(error.message);
