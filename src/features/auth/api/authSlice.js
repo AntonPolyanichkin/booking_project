@@ -18,29 +18,26 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(isAnyOf(authApi.endpoints.login.matchPending, authApi.endpoints.googleAuth.matchPending, authApi.endpoints.signUp.matchPending), (state) => {
+      .addMatcher(isAnyOf(authApi.endpoints.login.matchPending), (state) => {
         state.loading = true;
         state.error = false;
       })
-      .addMatcher(
-        isAnyOf(
-          authApi.endpoints.login.matchFulfilled,
-
-          authApi.endpoints.refresh.matchFulfilled,
-          authApi.endpoints.googleAuth.matchFulfilled,
-          authApi.endpoints.signUp.matchFulfilled,
-        ),
-        (state, action) => {
-          state.loading = false;
-          state.user = action.payload;
-        },
-      )
-      .addMatcher(isAnyOf(authApi.endpoints.login.matchRejected, authApi.endpoints.refresh.matchRejected, authApi.endpoints.googleAuth.matchRejected, authApi.endpoints.signUp.matchRejected), (state, action) => {
+      .addMatcher(isAnyOf(authApi.endpoints.refresh.matchPending), (state, action) => {
+        console.log("refresh payload:", action.payload);
+      })
+      .addMatcher(isAnyOf(authApi.endpoints.login.matchFulfilled), (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addMatcher(isAnyOf(authApi.endpoints.refresh.matchFulfilled), (state, action) => {
+        console.log("refresh payload:", action.payload);
+      })
+      .addMatcher(isAnyOf(authApi.endpoints.login.matchRejected), (state, action) => {
         state.loading = false;
         state.error = action.error?.message || "Auth error";
       })
-      .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
-        state.user = null;
+      .addMatcher(isAnyOf(authApi.endpoints.refresh.matchRejected), (state, action) => {
+        console.log("refresh payload:", action.payload);
       });
   },
 });

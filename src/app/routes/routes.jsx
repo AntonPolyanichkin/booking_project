@@ -10,20 +10,16 @@ import ProtectedRoute from "@/shared/ui/components/ProtectedRoute";
 
 export const routes = [
   {
-    path: frontRoutes.loginPage,
-    element: <Login />,
-  },
-  {
     path: "/",
-    element: (
-      <ProtectedRoute>
-        <MainLayout />
-      </ProtectedRoute>
-    ),
+    element: <MainLayout />,
     children: [
       {
         path: frontRoutes.calendarPage,
-        element: <CalendarPage />,
+        element: (
+          <ProtectedRoute>
+            <CalendarPage />
+          </ProtectedRoute>
+        ),
         meta: {
           title: "Календар",
           isInMenu: true,
@@ -32,7 +28,11 @@ export const routes = [
       },
       {
         path: frontRoutes.notesPage,
-        element: <Notes />,
+        element: (
+          <ProtectedRoute>
+            <Notes />
+          </ProtectedRoute>
+        ),
         meta: {
           title: "Записи",
           isInMenu: true,
@@ -41,7 +41,11 @@ export const routes = [
       },
       {
         path: frontRoutes.statisticsPage,
-        element: <Statistics />,
+        element: (
+          <ProtectedRoute>
+            <Statistics />
+          </ProtectedRoute>
+        ),
         meta: {
           title: "Статистика",
           isInMenu: true,
@@ -57,5 +61,9 @@ export const routes = [
         },
       },
     ],
+  },
+  {
+    path: frontRoutes.loginPage,
+    element: <Login />,
   },
 ];

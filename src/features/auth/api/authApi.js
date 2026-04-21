@@ -2,6 +2,7 @@ import DbOperations from "@/shared/service/DbOperations";
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { setUser } from "./authSlice";
+import { getFirestore, getDoc, doc } from "firebase/firestore";
 
 function createPlainUserObj(user) {
   if (!user) {
@@ -36,38 +37,6 @@ export const authApi = createApi({
         }
       },
     }),
-    googleAuth: builder.mutation({
-      async queryFn() {
-        try {
-          const auth = getAuth();
-          const provider = new GoogleAuthProvider();
-          provider.setCustomParameters({ prompt: "select_account" });
-          const result = await signInWithPopup(auth, provider);
-          const userDb = new DbOperations("users");
-          if (result.user && result.user.metadata.creationTime === result.user.metadata.lastSignInTime) {
-            await userDb.setWithId(result.user.uid, createPlainUserObj(result.user));
-          }
-          const userData = await userDb.getById(result.user.uid);
-          return { data: { ...createPlainUserObj(result.user), ...userData } };
-        } catch (error) {
-          return { error: { message: error.message } };
-        }
-      },
-    }),
-    signUp: builder.mutation({
-      async queryFn({ email, password }) {
-        try {
-          const auth = getAuth();
-          const result = await createUserWithEmailAndPassword(auth, email, password);
-          const userDb = new DbOperations("users");
-          await userDb.setWithId(result.user.uid, createPlainUserObj(result.user));
-          const userData = await userDb.getById(result.user.uid);
-          return { data: { ...createPlainUserObj(result.user), ...userData } };
-        } catch (error) {
-          return { error: { message: error.message } };
-        }
-      },
-    }),
     refresh: builder.query({
       async queryFn() {
         try {
@@ -82,7 +51,21 @@ export const authApi = createApi({
               reject,
             );
           });
-          return { data: user ?? null };
+          if (!user) {
+            return null;
+          } else {
+            const db = getFirestore();
+            const docSnap = await getDoc(doc(db, "users", user.uid));
+            const role = docSnap.data()?.role || "user";
+            return {
+              data: {
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName,
+                role,
+              },
+            };
+          }
         } catch (error) {
           return { error: { message: error.message } };
         }
@@ -102,4 +85,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation, useGoogleAuthMutation, useSignUpMutation, useRefreshMutation, useLogoutMutation } = authApi;
+export const { useLoginMutation, useRefreshQuery, useLogoutMutation } = authApi;

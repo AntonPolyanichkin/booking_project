@@ -1,7 +1,5 @@
 function NotFound() {
-	return ( 
-		<section>Not found</section>
-	 );
+  return <section>You don't have an access</section>;
 }
 
 export default NotFound;

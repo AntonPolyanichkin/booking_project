@@ -10,7 +10,6 @@
 		flex-direction: column;
 		justify-content: space-between;
 		gap: 0.625rem;
-		cursor: pointer;
 		// &__link::before {
 		// 	content: "";
 		// 	height: 1.5625rem;
@@ -18,6 +17,9 @@
 		// 	background-size: contain;
 		// 	background-position: center;
 		// }
+		&__element {
+			cursor: pointer;
+		}
 		&__element:not(:last-of-type) {
 			margin-bottom: 0.3125rem;
 		}
