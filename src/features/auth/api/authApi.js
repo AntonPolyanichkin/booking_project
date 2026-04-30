@@ -1,7 +1,6 @@
 import DbOperations from "@/shared/service/DbOperations";
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { setUser } from "./authSlice";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 
 function createPlainUserObj(user) {
@@ -28,9 +27,6 @@ export const authApi = createApi({
           const result = await signInWithEmailAndPassword(auth, email, password);
           const userDb = new DbOperations("users");
           const userData = await userDb.getById(result.user.uid);
-          if (!userData) {
-            console.log("Юзера нема в базі");
-          }
           return { data: { ...createPlainUserObj(result.user), ...(userData || {}) } };
         } catch (error) {
           return { error: { message: error.message } };
@@ -52,19 +48,12 @@ export const authApi = createApi({
             );
           });
           if (!user) {
-            return null;
+            return { data: null };
           } else {
             const db = getFirestore();
             const docSnap = await getDoc(doc(db, "users", user.uid));
             const role = docSnap.data()?.role || "user";
-            return {
-              data: {
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName,
-                role,
-              },
-            };
+            return { data: createPlainUserObj({ ...user, role }) };
           }
         } catch (error) {
           return { error: { message: error.message } };

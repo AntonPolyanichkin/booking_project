@@ -1,5 +1,6 @@
 import Menu from "./Menu";
 import style from "@/widgets/header/styles/header.module.scss";
+import UserInfo from "./UserInfo";
 function Header() {
   return (
     <header className={style.header}>
@@ -9,6 +10,7 @@ function Header() {
       </div>
       <div className={style.header__line}> </div>
       <Menu />
+      <UserInfo />
     </header>
   );
 }

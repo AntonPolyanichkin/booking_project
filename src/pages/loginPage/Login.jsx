@@ -9,7 +9,7 @@ function Login() {
   const [placeholder, setPlaceholder] = useState("••••••••");
   const intervalRef = useRef(null);
   const { handleLoginApi, isLoading, error } = useLogin();
-	const navigate = useNavigate()
+  const navigate = useNavigate();
   const startAnimation = () => {
     const dots = ["•", "••", "•••", "••••", "•••••", "••••••", "•••••••", "••••••••", ""];
     let i = 0;
@@ -36,10 +36,8 @@ function Login() {
   } = useForm({ resolver: yupResolver(formValidation) });
 
   const handleLogin = async (credentials) => {
-    console.log(credentials);
     await handleLoginApi(credentials);
   };
-
   return (
     <section className={style.login}>
       <div className={style["login__container"]}>
@@ -97,7 +95,7 @@ function Login() {
                   Увійти
                 </button>
               </form>
-				  {error && <p className={style.error}>Користувач не зареєстрований в системі</p>}
+              {error && <p className={style.error}>Користувач не зареєстрований в системі</p>}
             </div>
           </div>
         </div>

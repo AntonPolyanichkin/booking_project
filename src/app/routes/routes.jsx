@@ -7,12 +7,17 @@ import NotFound from "@/pages/NotFound";
 import Login from "@/pages/loginPage/Login";
 import { frontRoutes } from "./frontRoutes/frontRoutes";
 import ProtectedRoute from "@/shared/ui/components/ProtectedRoute";
+import AppInit from "../appInit/AppInit";
 
 export const routes = [
   {
     path: "/",
     element: <MainLayout />,
     children: [
+		{
+			index: true,
+			element: <AppInit/>
+		},
       {
         path: frontRoutes.calendarPage,
         element: (
