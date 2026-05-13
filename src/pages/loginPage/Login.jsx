@@ -5,10 +5,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { formValidation } from "./schema/yupSchema";
 import { useLogin } from "@/features/auth/model/useLogin";
 import { useNavigate } from "react-router";
+import { useSignUp } from "@/features/auth/model/useSignUp";
 function Login() {
   const [placeholder, setPlaceholder] = useState("••••••••");
+  const [login, setLogin] = useState(true);
   const intervalRef = useRef(null);
-  const { handleLoginApi, isLoading, error } = useLogin();
+  const { handleLoginApi, isLoading: isLoginLoading, error } = useLogin();
+  const { handleSignApi, isLoading: isSignUpLoading, isError } = useSignUp();
   const navigate = useNavigate();
   const startAnimation = () => {
     const dots = ["•", "••", "•••", "••••", "•••••", "••••••", "•••••••", "••••••••", ""];
@@ -36,7 +39,11 @@ function Login() {
   } = useForm({ resolver: yupResolver(formValidation) });
 
   const handleLogin = async (credentials) => {
-    await handleLoginApi(credentials);
+    if (login) {
+      await handleLoginApi(credentials);
+    } else {
+      await handleSignApi(credentials);
+    }
   };
   return (
     <section className={style.login}>
@@ -63,7 +70,7 @@ function Login() {
                     <p className={style["list__item-text"]}>Записів у системі</p>
                   </li>
                   <li className={style.list__item}>
-                    <p className={style["list__item-statistics"]}>2</p>
+                    <p className={style["list__item-statistics"]}>3</p>
                     <p className={style["list__item-text"]}>Ролі доступу</p>
                   </li>
                   <li className={style.list__item}>
@@ -91,8 +98,11 @@ function Login() {
                   <input type="password" className={style.form__input} {...register("password")} placeholder={placeholder} onFocus={stopAnimation} onBlur={startAnimation} />
                 </label>
                 {errors.password && <p className={style.form__error}>{errors.password.message}</p>}
-                <button type="submit" className={style.form__btn}>
-                  Увійти
+                <button type="submit" className={style.form__login}>
+                  {login ? "Увійти" : "Зареєструватись"}
+                </button>
+                <button type="button" className={style.form__sing} onClick={() => setLogin((prev) => (prev ? false : true))}>
+                  {login ? "Немає акаунт? Зарєструватись" : "Увійти"}
                 </button>
               </form>
               {error && <p className={style.error}>Користувач не зареєстрований в системі</p>}

@@ -8,16 +8,17 @@ import Login from "@/pages/loginPage/Login";
 import { frontRoutes } from "./frontRoutes/frontRoutes";
 import ProtectedRoute from "@/shared/ui/components/ProtectedRoute";
 import AppInit from "../appInit/AppInit";
+import Forbidden from "@/pages/Forbidden";
 
 export const routes = [
   {
     path: "/",
     element: <MainLayout />,
     children: [
-		{
-			index: true,
-			element: <AppInit/>
-		},
+      {
+        index: true,
+        element: <AppInit />,
+      },
       {
         path: frontRoutes.calendarPage,
         element: (
@@ -28,7 +29,7 @@ export const routes = [
         meta: {
           title: "Календар",
           isInMenu: true,
-          roles: [role.admin, role.manager],
+          roles: [role.admin, role.manager, role.user],
         },
       },
       {
@@ -62,7 +63,15 @@ export const routes = [
         element: <NotFound />,
         meta: {
           isInMenu: false,
-          roles: [role.admin, role.manager],
+          roles: [role.admin, role.manager, role.user],
+        },
+      },
+      {
+        path: "/forbidden",
+        element: <Forbidden />,
+        meta: {
+          isInMenu: false,
+          roles: [role.admin, role.manager, role.user],
         },
       },
     ],

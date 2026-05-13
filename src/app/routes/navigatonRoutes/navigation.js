@@ -7,7 +7,7 @@ export const navigation = [
     meta: {
       title: "Календар",
       isInMenu: true,
-      roles: [role.admin, role.manager],
+      roles: [role.admin, role.manager, role.user],
     },
   },
   {

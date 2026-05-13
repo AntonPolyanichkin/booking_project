@@ -1,4 +1,5 @@
 import { frontRoutes } from "@/app/routes/frontRoutes/frontRoutes";
+import { role } from "@/app/routes/role/role";
 import { useLogoutMutation } from "@/features/auth/api/authApi";
 import { clearUser } from "@/features/auth/api/authSlice";
 import style from "@/widgets/header/styles/userInfo.module.scss";
@@ -14,9 +15,25 @@ function UserInfo() {
     dispatch(clearUser());
     navigate(frontRoutes.loginPage, { replace: true });
   }
+  function checkRole(userRole) {
+    switch (userRole?.role) {
+      case role.admin:
+        return <h2>Адмін - {user?.email}</h2>;
+
+      case role.manager:
+        return <h2>Менеджер - {user?.email}</h2>;
+
+      case role.user:
+        return <h2>Клієнт - {user?.email}</h2>;
+
+      default:
+        return <h2>Роль не визначена - {user?.email}</h2>;
+    }
+  }
+
   return (
-    <div className={style.test}>
-      <div>{user?.role === "admin" ? <h2>Адмін</h2> : <h2>Менеджер</h2>}</div>
+    <div className={style.userInfo__container}>
+      {checkRole(user)}
       <button onClick={handleLogOut}>Вийти</button>
     </div>
   );

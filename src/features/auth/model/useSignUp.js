@@ -1,20 +1,20 @@
-import { useNavigate } from "react-router";
-import { useLoginMutation } from "../api/authApi";
-import { setUser } from "../api/authSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { useSignUpMutation } from "../api/authApi";
+import { setUser } from "../api/authSlice";
 import { frontRoutes } from "@/app/routes/frontRoutes/frontRoutes";
 
-export function useLogin() {
-  const [login, { isLoading, isError }] = useLoginMutation();
+export function useSignUp() {
+  const [signUp, { isLoading, isError }] = useSignUpMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  async function handleLoginApi(credentials) {
-    const result = await login(credentials).unwrap();
+  async function handleSignApi(credentials) {
+    const result = await signUp(credentials).unwrap();
     dispatch(setUser({ uid: result.uid, email: result.email, role: result.role }));
     navigate(frontRoutes.calendarPage, { replace: true });
     return result;
   }
 
-  return { handleLoginApi, isLoading, isError };
+  return { handleSignApi, isLoading, isError };
 }

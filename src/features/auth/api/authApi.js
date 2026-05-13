@@ -1,6 +1,7 @@
+import { role } from "@/app/routes/role/role";
 import DbOperations from "@/shared/service/DbOperations";
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 
 function createPlainUserObj(user) {
@@ -11,11 +12,11 @@ function createPlainUserObj(user) {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      role: user.role || "user",
+      role: user.role || role.user,
     };
   }
 }
-
+const userDb = new DbOperations("users");
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fakeBaseQuery(),
@@ -25,9 +26,8 @@ export const authApi = createApi({
         try {
           const auth = getAuth();
           const result = await signInWithEmailAndPassword(auth, email, password);
-          const userDb = new DbOperations("users");
           const userData = await userDb.getById(result.user.uid);
-          return { data: { ...createPlainUserObj(result.user), ...(userData || {}) } };
+          return { data: { ...createPlainUserObj(result.user), role: userData?.role || role.user } };
         } catch (error) {
           return { error: { message: error.message } };
         }
@@ -52,8 +52,8 @@ export const authApi = createApi({
           } else {
             const db = getFirestore();
             const docSnap = await getDoc(doc(db, "users", user.uid));
-            const role = docSnap.data()?.role || "user";
-            return { data: createPlainUserObj({ ...user, role }) };
+            const userRole = docSnap.data()?.role || role.user;
+            return { data: { ...createPlainUserObj({ ...user, role: userRole }) } };
           }
         } catch (error) {
           return { error: { message: error.message } };
@@ -71,7 +71,46 @@ export const authApi = createApi({
         }
       },
     }),
+    signUp: builder.mutation({
+      async queryFn({ email, password }) {
+        console.log(email, password);
+
+        const auth = getAuth();
+        try {
+          const newUser = await createUserWithEmailAndPassword(auth, email, password);
+          const setUser = await userDb.setWithId(newUser.user.uid, { email: newUser.user.email, role: role.user });
+          //  await userDb.add("users", { ...newUser.user });
+          return {
+            data: {
+              ...createPlainUserObj({
+                email: newUser.user.email,
+                role: role.user,
+              }),
+            },
+          };
+        } catch (error) {
+          return { error: { message: error.message } };
+        }
+      },
+    }),
+    googleAuth: builder.mutation({
+      async queryFn() {
+        try {
+          const auth = getAuth();
+          const provider = new GoogleAuthProvider();
+          provider.setCustomParameters({ prompt: "select_account" });
+          const result = await signInWithPopup(auth, provider);
+          if (result && result.user.metadata.creationTime === result.user.metadata.lastSignInTime) {
+            await userDb.setWithId(result.user.uid, { ...createPlainUserObj(result.user) });
+          }
+          const userData = await userDb.getById(result.user.uid);
+          return { data: { ...createPlainUserObj(result.user), role: userData?.role || role.user } };
+        } catch (error) {
+          return { error: { message: error.message } };
+        }
+      },
+    }),
   }),
 });
 
-export const { useLoginMutation, useRefreshQuery, useLogoutMutation } = authApi;
+export const { useLoginMutation, useRefreshQuery, useLogoutMutation, useSignUpMutation } = authApi;

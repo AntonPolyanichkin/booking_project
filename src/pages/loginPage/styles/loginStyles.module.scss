@@ -123,7 +123,7 @@
 		line-height: 1.2;
 		margin-bottom: .625rem;
 	}
-	&__btn{
+	&__login{
 		color: #fff;
 		padding: .625rem;
 		margin-bottom: .625rem;
@@ -132,6 +132,11 @@
 		&:hover{
 			background-color: #474545;
 		}
+	}
+	&__sing{
+		font-size: .9375rem ;
+		color: #474545;
+		line-height: 1.2;
 	}
 }
 .error{

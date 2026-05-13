@@ -18,26 +18,27 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(isAnyOf(authApi.endpoints.login.matchPending, authApi.endpoints.refresh.matchPending), (state) => {
+      .addMatcher(isAnyOf(authApi.endpoints.login.matchPending, authApi.endpoints.refresh.matchPending, authApi.endpoints.signUp.matchPending, authApi.endpoints.logout.matchPending, authApi.endpoints.googleAuth.matchPending), (state) => {
         state.loading = true;
         state.error = false;
       })
-      .addMatcher(isAnyOf(authApi.endpoints.login.matchFulfilled), (state, action) => {
+      .addMatcher(isAnyOf(authApi.endpoints.login.matchFulfilled, authApi.endpoints.refresh.matchFulfilled, authApi.endpoints.signUp.matchFulfilled, authApi.endpoints.googleAuth.matchFulfilled), (state, action) => {
         state.loading = false;
+        state.error = null;
         state.user = action.payload;
       })
-      .addMatcher(isAnyOf(authApi.endpoints.refresh.matchFulfilled), (state, action) => {
+      .addMatcher(isAnyOf(authApi.endpoints.logout.matchFulfilled), (state, action) => {
+        state.user = null;
+        state.error = null;
         state.loading = false;
-        state.user = action.payload;
       })
-      .addMatcher(isAnyOf(authApi.endpoints.login.matchRejected), (state, action) => {
-        state.loading = false;
-        state.error = action.error?.message || "Auth error";
-      })
-      .addMatcher(isAnyOf(authApi.endpoints.refresh.matchRejected), (state, action) => {
-        state.loading = false;
-        state.error = action.error?.message || "Auth error";
-      });
+      .addMatcher(
+        isAnyOf(authApi.endpoints.login.matchRejected, authApi.endpoints.refresh.matchRejected, authApi.endpoints.signUp.matchRejected, authApi.endpoints.logout.matchRejected, authApi.endpoints.googleAuth.matchRejected),
+        (state, action) => {
+          state.loading = false;
+          state.error = action.error?.message || "Auth error";
+        },
+      );
   },
 });
 
