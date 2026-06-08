@@ -1,10 +1,10 @@
 import { role } from "@/app/routes/role/role";
 import DbOperations from "@/shared/service/DbOperations";
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult } from "firebase/auth";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 
-function createPlainUserObj(user) {
+export function createPlainUserObj(user) {
   if (!user) {
     return null;
   } else {
@@ -16,7 +16,7 @@ function createPlainUserObj(user) {
     };
   }
 }
-const userDb = new DbOperations("users");
+export const userDb = new DbOperations("users");
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fakeBaseQuery(),
@@ -96,15 +96,27 @@ export const authApi = createApi({
     googleAuth: builder.mutation({
       async queryFn() {
         try {
+          // Виконати автентифікацію на Firebase
           const auth = getAuth();
           const provider = new GoogleAuthProvider();
           provider.setCustomParameters({ prompt: "select_account" });
           const result = await signInWithPopup(auth, provider);
-          if (result && result.user.metadata.creationTime === result.user.metadata.lastSignInTime) {
-            await userDb.setWithId(result.user.uid, { ...createPlainUserObj(result.user) });
+          const usersDb = new DbOperations("users");
+          // Якщо користувач новий, додати у Firestore
+          if (result.user && result.user.metadata.creationTime === result.user.metadata.lastSignInTime) {
+            await usersDb.setWithId(result.user.uid, {
+              uid: result.user.uid,
+              email: result.user.email,
+              displayName: result.user.displayName,
+              photoURL: result.user.photoURL || "",
+              role: "user",
+              createdAt: new Date().toISOString(),
+            });
           }
-          const userData = await userDb.getById(result.user.uid);
-          return { data: { ...createPlainUserObj(result.user), role: userData?.role || role.user } };
+          // Завжди отримуємо дані з Firestore
+          const userData = await usersDb.getById(result.user.uid);
+          // Об'єднати Firebase user + Firestore user
+          return { data: { ...createPlainUserObj(result.user), ...userData } };
         } catch (error) {
           return { error: { message: error.message } };
         }
@@ -113,4 +125,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation, useRefreshQuery, useLogoutMutation, useSignUpMutation } = authApi;
+export const { useLoginMutation, useRefreshQuery, useLogoutMutation, useSignUpMutation, useGoogleAuthMutation } = authApi;

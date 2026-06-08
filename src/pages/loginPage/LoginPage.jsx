@@ -6,13 +6,18 @@ import { formValidation } from "./schema/yupSchema";
 import { useLogin } from "@/features/auth/model/useLogin";
 import { useNavigate } from "react-router";
 import { useSignUp } from "@/features/auth/model/useSignUp";
+import { createPlainUserObj, useGoogleAuthMutation, userDb } from "@/features/auth/api/authApi";
+import { frontRoutes } from "@/app/routes/frontRoutes/frontRoutes";
+import { useDispatch } from "react-redux";
 function Login() {
   const [placeholder, setPlaceholder] = useState("••••••••");
   const [login, setLogin] = useState(true);
   const intervalRef = useRef(null);
-  const { handleLoginApi, isLoading: isLoginLoading, error } = useLogin();
-  const { handleSignApi, isLoading: isSignUpLoading, isError } = useSignUp();
+  const { handleLoginApi, isLoading: isLoginLoading, isError: isLoginError } = useLogin();
+  const { handleSignApi, isLoading: isSignUpLoading, isError: isSignError } = useSignUp();
+  const [googleAuth, { isLoading: isGoogleAuthLoading, isError: isGoogleAuthError }] = useGoogleAuthMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const startAnimation = () => {
     const dots = ["•", "••", "•••", "••••", "•••••", "••••••", "•••••••", "••••••••", ""];
     let i = 0;
@@ -31,7 +36,6 @@ function Login() {
     startAnimation();
     return () => clearInterval(intervalRef.current);
   }, []);
-
   const {
     register,
     handleSubmit,
@@ -43,6 +47,13 @@ function Login() {
       await handleLoginApi(credentials);
     } else {
       await handleSignApi(credentials);
+    }
+  };
+  const handleGoogleAuth = async () => {
+    const result = await googleAuth();
+    console.log("result:", result);
+    if (result.data) {
+      navigate(frontRoutes.calendarPage);
     }
   };
   return (
@@ -98,14 +109,19 @@ function Login() {
                   <input type="password" className={style.form__input} {...register("password")} placeholder={placeholder} onFocus={stopAnimation} onBlur={startAnimation} />
                 </label>
                 {errors.password && <p className={style.form__error}>{errors.password.message}</p>}
-                <button type="submit" className={style.form__login}>
-                  {login ? "Увійти" : "Зареєструватись"}
-                </button>
-                <button type="button" className={style.form__sing} onClick={() => setLogin((prev) => (prev ? false : true))}>
-                  {login ? "Немає акаунт? Зарєструватись" : "Увійти"}
-                </button>
+                <div className={style.form__btnContainer}>
+                  <button type="submit" className={style.form__login}>
+                    {login ? "Увійти" : "Зареєструватись"}
+                  </button>
+                  <button type="button" className={style.form__googleLogin} onClick={handleGoogleAuth}>
+                    Sign in with Google
+                  </button>
+                  <button type="button" className={style.form__sing} onClick={() => setLogin((prev) => (prev ? false : true))}>
+                    {login ? "Немає акаунт? Зарєструватись" : "Увійти"}
+                  </button>
+                </div>
               </form>
-              {error && <p className={style.error}>Користувач не зареєстрований в системі</p>}
+              {isLoginError && <p className={style.error}>Користувач не зареєстрований в системі</p>}
             </div>
           </div>
         </div>

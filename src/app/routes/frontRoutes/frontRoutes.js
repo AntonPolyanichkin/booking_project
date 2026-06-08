@@ -1,5 +1,5 @@
 export const frontRoutes = {
-	loginPage: "/login",
+	loginLayout: "/login",
 	calendarPage: "/calendar",
 	notesPage: "/notes",
 	statisticsPage: "/statistics",

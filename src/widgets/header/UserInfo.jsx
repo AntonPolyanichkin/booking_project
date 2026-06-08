@@ -13,7 +13,7 @@ function UserInfo() {
   function handleLogOut() {
     logout();
     dispatch(clearUser());
-    navigate(frontRoutes.loginPage, { replace: true });
+    navigate(frontRoutes.loginLayout, { replace: true });
   }
   function checkRole(userRole) {
     switch (userRole?.role) {

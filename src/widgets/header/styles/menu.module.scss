@@ -26,7 +26,7 @@
 
 		&__element:nth-child(1) {
 			& .list__link::before {
-				background: url("@/shared/ui/icons/calendar-icon-white.svg") no-repeat;
+				background: url("@/shared/icons/calendar-icon-white.svg") no-repeat;
 				content: "";
 				height: 1.5625rem;
 				width: 1.5625rem;
@@ -34,7 +34,7 @@
 				background-position: center;
 			}
 			& .list__link-active::before {
-				background: url("@/shared/ui/icons/calendar-icon-black.svg") no-repeat;
+				background: url("@/shared/icons/calendar-icon-black.svg") no-repeat;
 				content: "";
 				height: 1.5625rem;
 				width: 1.5625rem;
@@ -44,7 +44,7 @@
 		}
 		&__element:nth-child(2) {
 			& .list__link::before {
-				background: url("@/shared/ui/icons/notes-icon-white.svg") no-repeat;
+				background: url("@/shared/icons/notes-icon-white.svg") no-repeat;
 				content: "";
 				height: 1.5625rem;
 				width: 1.5625rem;
@@ -52,7 +52,7 @@
 				background-position: center;
 			}
 			& .list__link-active::before {
-				background: url("@/shared/ui/icons/notes-icon-black.svg") no-repeat;
+				background: url("@/shared/icons/notes-icon-black.svg") no-repeat;
 				content: "";
 				height: 1.5625rem;
 				width: 1.5625rem;
@@ -62,7 +62,7 @@
 		}
 		&__element:nth-child(3) {
 			& .list__link::before {
-				background: url("@/shared/ui/icons/statistics-icon-white.svg") no-repeat;
+				background: url("@/shared/icons/statistics-icon-white.svg") no-repeat;
 				content: "";
 				height: 1.5625rem;
 				width: 1.5625rem;
@@ -70,7 +70,7 @@
 				background-position: center;
 			}
 			& .list__link-active::before {
-				background: url("@/shared/ui/icons/statistics-icon-black.svg") no-repeat;
+				background: url("@/shared/icons/statistics-icon-black.svg") no-repeat;
 				content: "";
 				height: 1.5625rem;
 				width: 1.5625rem;
@@ -87,12 +87,14 @@
 			transition:
 				background 0.2s,
 				color 0.2s;
-			&:hover {
-				color: $menuTextColorWhite;
-				background-color: rgba(255, 255, 255, 0.3);
-				transition:
-					background 0.5s,
-					color 0.2s;
+			@media (any-hover: hover) {
+				&:hover {
+					color: $menuTextColorWhite;
+					background-color: rgba(255, 255, 255, 0.3);
+					transition:
+						background 0.5s,
+						color 0.2s;
+				}
 			}
 			&-active {
 				background: $menuTextColorWhite;

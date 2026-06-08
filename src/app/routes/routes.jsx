@@ -1,12 +1,12 @@
 import CalendarPage from "@/pages/calendar/CalendarPage";
 import { role } from "./role/role";
-import MainLayout from "@/widgets/mainLayout/MainLayout";
+import MainLayout from "@/app/layoutes/mainLayout/MainLayout";
 import Notes from "@/pages/notes/Notes";
 import Statistics from "@/pages/statistics/Statistics";
 import NotFound from "@/pages/NotFound";
-import Login from "@/pages/loginPage/Login";
+import LoginPage from "@/pages/loginPage/LoginPage";
 import { frontRoutes } from "./frontRoutes/frontRoutes";
-import ProtectedRoute from "@/shared/ui/components/ProtectedRoute";
+import ProtectedRoute from "@/app/routes/ProtectedRoute";
 import AppInit from "../appInit/AppInit";
 import Forbidden from "@/pages/Forbidden";
 
@@ -77,7 +77,12 @@ export const routes = [
     ],
   },
   {
-    path: frontRoutes.loginPage,
-    element: <Login />,
+    path: frontRoutes.loginLayout,
+    children: [
+      {
+        index: true,
+        element: <LoginPage />,
+      },
+    ],
   },
 ];

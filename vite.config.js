@@ -9,4 +9,9 @@ export default defineConfig({
       "@": "/src", // Відносний шлях до src
     },
   },
+  server: {
+    headers: {
+      "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+    },
+  },
 });

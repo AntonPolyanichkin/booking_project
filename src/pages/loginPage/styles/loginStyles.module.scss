@@ -63,7 +63,7 @@
 	&__container {
 		width: 100%;
 	}
-	li{
+	li {
 		text-align: center;
 	}
 }
@@ -108,41 +108,73 @@
 		& p {
 			color: #000;
 			font-size: 0.9375rem;
-			margin-bottom: .3125rem;
+			margin-bottom: 0.3125rem;
 		}
-		& input{
-			padding: .625rem;
-			outline: .0625rem solid rgba(0, 0, 0, 0.3);
+		& input {
+			padding: 0.625rem;
+			outline: 0.0625rem solid rgba(0, 0, 0, 0.3);
 			color: $menuTextColorGray;
 		}
-		margin-bottom: .625rem;
+		margin-bottom: 0.625rem;
 	}
-	&__error{
+	&__error {
 		color: $menuTextColorGray;
 		@include adaptiveValue("font-size", 15, 10);
 		line-height: 1.2;
-		margin-bottom: .625rem;
+		margin-bottom: 0.625rem;
 	}
-	&__login{
+	&__btnContainer {
+		min-height: 7rem;
+		max-width: 20rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+	}
+	&__login {
 		color: #fff;
-		padding: .625rem;
-		margin-bottom: .625rem;
+		padding: 0.625rem;
+		width: 100%;
+		flex-shrink: 0;
 		background: #000;
 		transition: 0.3s;
-		&:hover{
-			background-color: #474545;
+		@media (any-hover: hover) {
+			&:hover {
+				background-color: #474545;
+			}
 		}
 	}
-	&__sing{
-		font-size: .9375rem ;
+	&__googleLogin {
+		font-family: "Roboto", sans-serif;
+		font-weight: 500;
+		font-size: 14px;
+		color: #e3e3e3;
+		border: 0.0625rem solid #8e918f;
+		border-radius: 6.25rem;
+		padding: 0.625rem 0.75rem;
+		width: 100%;
+		min-height: 2.5rem;
+		background: url("/src/shared/pictures/btn_auth_google.svg") no-repeat;
+		background-position: 10% center;
+		background-size: 1.25rem;
+		background-color: #131314;
+		transition: 0.3s;
+		@media (any-hover: hover) {
+			&:hover {
+				background-color: #474545;
+			}
+		}
+	}
+	&__sing {
+		font-size: 0.9375rem;
 		color: #474545;
 		line-height: 1.2;
 	}
 }
-.error{
+.error {
 	color: #000;
 	font-size: 1.25rem;
 	line-height: 1.2;
-	padding: .625rem;
-	outline: .0625rem solid black;
+	padding: 0.625rem;
+	outline: 0.0625rem solid black;
 }
