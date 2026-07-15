@@ -5,6 +5,7 @@ export const authSlice = createSlice({
   name: "authSlice",
   initialState: {
     user: null,
+	 isInit: false,
     loading: false,
     error: false,
   },
@@ -24,6 +25,7 @@ export const authSlice = createSlice({
       })
       .addMatcher(isAnyOf(authApi.endpoints.login.matchFulfilled, authApi.endpoints.refresh.matchFulfilled, authApi.endpoints.signUp.matchFulfilled, authApi.endpoints.googleAuth.matchFulfilled), (state, action) => {
         state.loading = false;
+		  state.isInit = true;
         state.error = null;
         state.user = action.payload;
       })

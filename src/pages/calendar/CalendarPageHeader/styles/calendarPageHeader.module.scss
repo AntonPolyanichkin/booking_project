@@ -1,0 +1,23 @@
+@use "@/app/globalStyles/_var.scss" as *;
+@use "@/app/globalStyles/_mixins.scss" as *;
+.calendar-page-header {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 3.125rem;
+}
+.title-container {
+	display: flex;
+	flex-direction: column;
+	row-gap: 0.9375rem;
+	&__title {
+		@include adaptiveValue("font-size", 30, 25);
+		color: #000;
+		line-height: 1.2;
+	}
+	&__subtitle {
+		@include adaptiveValue("font-size", 20, 15);
+		color: $menuTextColorGray;
+	}
+}

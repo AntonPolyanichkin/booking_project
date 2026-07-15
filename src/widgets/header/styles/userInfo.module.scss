@@ -1,5 +1,42 @@
 @use "@/app/globalStyles/_var.scss" as *;
-.userInfo__container{
+.userInfo__container {
+	min-width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
 	color: white;
-	
+	.userInfo__roleUser {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		align-self: center;
+		gap: 0.625rem;
+	}
+	h2 {
+		font-size: 1.25rem;
+		text-align: center;
+		flex-grow: 1;
+	}
+	svg {
+		display: inline-block;
+		height: 1.875rem;
+		width: 1.875rem;
+	}
+	.userInfo__btn {
+		min-width: 100%;
+		padding: 0.625rem;
+		background-color: #000;
+		outline: 0.0625rem solid $menuTextColorWhite;
+		border-radius: 0.625rem;
+		transition: 0.3s;
+
+		@media (any-hover: hover) {
+			&:hover {
+				background-color: $menuTextColorGray;
+				transition: 0.5s;
+			}
+		}
+	}
 }

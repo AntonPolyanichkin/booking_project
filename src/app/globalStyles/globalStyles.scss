@@ -1,5 +1,5 @@
 @use "_reset.scss";
-@use "_var.scss";
+@use "_var.scss" as *;
 body {
 	background-color: #fff;
 	font-family: "Inter", sans-serif;
@@ -12,5 +12,6 @@ body {
 [class*="__container"] {
 	padding-left: 0.9375rem;
 	padding-right: 0.9375rem;
+	max-width: 90rem;
 	margin: 0 auto;
 }

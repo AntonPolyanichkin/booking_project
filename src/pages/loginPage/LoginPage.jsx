@@ -9,9 +9,11 @@ import { useSignUp } from "@/features/auth/model/useSignUp";
 import { createPlainUserObj, useGoogleAuthMutation, userDb } from "@/features/auth/api/authApi";
 import { frontRoutes } from "@/app/routes/frontRoutes/frontRoutes";
 import { useDispatch } from "react-redux";
+import AuthModal from "@/shared/ui/modal/authModal/authModal";
 function Login() {
   const [placeholder, setPlaceholder] = useState("••••••••");
   const [login, setLogin] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const intervalRef = useRef(null);
   const { handleLoginApi, isLoading: isLoginLoading, isError: isLoginError } = useLogin();
   const { handleSignApi, isLoading: isSignUpLoading, isError: isSignError } = useSignUp();
@@ -55,6 +57,12 @@ function Login() {
     if (result.data) {
       navigate(frontRoutes.calendarPage);
     }
+  };
+  useEffect(() => {
+    if (isLoginError) setIsOpen(true);
+  }, [isLoginError]);
+  const handleClose = () => {
+    setIsOpen(false);
   };
   return (
     <section className={style.login}>
@@ -121,7 +129,7 @@ function Login() {
                   </button>
                 </div>
               </form>
-              {isLoginError && <p className={style.error}>Користувач не зареєстрований в системі</p>}
+              {isOpen && <AuthModal handleClose={handleClose} />}
             </div>
           </div>
         </div>

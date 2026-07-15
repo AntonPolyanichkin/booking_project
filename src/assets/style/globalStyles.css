@@ -91,5 +91,6 @@ body.scroll-lock {
 [class*=__container] {
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
+  max-width: 90rem;
   margin: 0 auto;
 }

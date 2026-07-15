@@ -1,8 +1,13 @@
 .header {
 	width: 15.625rem;
+	min-height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
 
 	background-color: #000;
-
+	padding: 1.25rem;
 	&__line {
 		height: 0.0625rem;
 		width: 100%;
@@ -21,4 +26,13 @@
 		font-size: 0.9375rem;
 		color: rgb(128, 128, 128);
 	}
+}
+.navigation-container {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+.menu-container {
+	flex-grow: 1;
 }

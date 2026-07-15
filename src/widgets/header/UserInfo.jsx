@@ -5,6 +5,10 @@ import { clearUser } from "@/features/auth/api/authSlice";
 import style from "@/widgets/header/styles/userInfo.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { FaUser } from "react-icons/fa6";
+import { FaUserShield } from "react-icons/fa";
+import { FaUserCog } from "react-icons/fa";
+import { FaUserSlash } from "react-icons/fa";
 function UserInfo() {
   const user = useSelector((state) => state.authSlice.user);
   const [logout, { isLoading, isError }] = useLogoutMutation();
@@ -18,23 +22,43 @@ function UserInfo() {
   function checkRole(userRole) {
     switch (userRole?.role) {
       case role.admin:
-        return <h2>Адмін - {user?.email}</h2>;
+        return (
+          <div className={style.userInfo__roleUser}>
+            <FaUserShield />
+            <h2>Адмін</h2>
+          </div>
+        );
 
       case role.manager:
-        return <h2>Менеджер - {user?.email}</h2>;
+        return (
+          <div className={style.userInfo__roleUser}>
+            <FaUserCog />
+            <h2>Менеджер</h2>
+          </div>
+        );
 
       case role.user:
-        return <h2>Клієнт - {user?.email}</h2>;
+        return (
+          <div className={style.userInfo__roleUser}>
+            <FaUser />
+            <h2 className={style.userInfo__text}>Клієнт</h2>
+          </div>
+        );
 
       default:
-        return <h2>Роль не визначена - {user?.email}</h2>;
+        return (
+          <div className={style.userInfo__roleUser}>
+            <FaUserSlash />
+            <h2>Невідома роль</h2>
+          </div>
+        );
     }
   }
 
   return (
     <div className={style.userInfo__container}>
       {checkRole(user)}
-      <button onClick={handleLogOut}>Вийти</button>
+      <button className={style.userInfo__btn} onClick={handleLogOut}>Вийти</button>
     </div>
   );
 }

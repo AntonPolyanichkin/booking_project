@@ -1,9 +1,11 @@
 .wrapper {
 	overflow: clip;
 	min-height: 100vh;
+	min-height: 100dvh;
 	display: flex;
 
 	& .page {
 		flex-grow: 1;
+		flex-shrink: 0;
 	}
 }

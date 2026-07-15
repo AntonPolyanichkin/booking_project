@@ -1,0 +1,26 @@
+@use "../../../../app/globalStyles/var" as *;
+.calendar {
+	background-color: $sectionBackground;
+	
+	height: 100%;
+	&__container {
+		padding-block: 2.5rem;
+	}
+}
+.grid-container {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 0.5fr 1fr;
+	grid-template-rows: 1fr 0.5fr;
+	gap: 1.25rem;
+	justify-content: start;
+	align-content: center;
+	&__item {
+		padding: 20px;
+		outline: 0.125rem solid black;
+	}
+	&__item:nth-child(2) {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+	}
+}

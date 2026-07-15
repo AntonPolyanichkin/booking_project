@@ -1,0 +1,30 @@
+@use "@/app/globalStyles/_mixins.scss" as *;
+.add-client-button {
+	max-width: 12.5rem;
+	width: 100%;
+
+	padding: 0.9375rem;
+
+	background-color: #000;
+	color: #fff;
+	line-height: 1.2;
+	text-align: center;
+	@include adaptiveValue("font-size", 20, 15);
+	font-weight: 400;
+	transition: 0.5s;
+	&__animated-symbol {
+		display: inline-block;
+		transition: transform 0.3s;
+	}
+	@media (any-hover: hover) {
+		&:hover {
+			.add-client-button__animated-symbol {
+				transform: rotate(360deg);
+				transition: transform 0.5s;
+			}
+			background-color: #c9c9c9;
+			color: #000;
+			transition: 0.3s;
+		}
+	}
+}

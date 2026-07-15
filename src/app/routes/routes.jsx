@@ -1,4 +1,4 @@
-import CalendarPage from "@/pages/calendar/CalendarPage";
+import CalendarPage from "@/pages/calendar/CalendarPage/CalendarPage";
 import { role } from "./role/role";
 import MainLayout from "@/app/layoutes/mainLayout/MainLayout";
 import Notes from "@/pages/notes/Notes";
@@ -7,7 +7,6 @@ import NotFound from "@/pages/NotFound";
 import LoginPage from "@/pages/loginPage/LoginPage";
 import { frontRoutes } from "./frontRoutes/frontRoutes";
 import ProtectedRoute from "@/app/routes/ProtectedRoute";
-import AppInit from "../appInit/AppInit";
 import Forbidden from "@/pages/Forbidden";
 
 export const routes = [
@@ -17,10 +16,6 @@ export const routes = [
     children: [
       {
         index: true,
-        element: <AppInit />,
-      },
-      {
-        path: frontRoutes.calendarPage,
         element: (
           <ProtectedRoute>
             <CalendarPage />

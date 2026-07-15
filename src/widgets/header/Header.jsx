@@ -9,8 +9,14 @@ function Header() {
         <p className={style.header__subtitle}>Система записів</p>
       </div>
       <div className={style.header__line}> </div>
-      <Menu />
-      <UserInfo />
+      <div className={style["navigation-container"]}>
+        <div className={style["menu-container"]}>
+          <Menu />
+        </div>
+        <div className={style["user-container"]}>
+          <UserInfo />
+        </div>
+      </div>
     </header>
   );
 }
