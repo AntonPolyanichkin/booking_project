@@ -1,4 +1,4 @@
-import AddClientBtn from "@/features/addClient/ui/clientBtn/AddClientBtn";
+import AddClientBtn from "@/features/addNote/ui/clientBtn/AddClientBtn";
 import styles from "./styles/calendarPageHeader.module.scss";
 function CalendarPageHeader() {
   return (

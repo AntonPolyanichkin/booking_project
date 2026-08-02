@@ -1,0 +1,4 @@
+.notes__list {
+  max-height: 37.5rem;
+  overflow: scroll;
+}

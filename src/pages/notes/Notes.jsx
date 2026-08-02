@@ -1,4 +1,4 @@
-import NotesList from "../../entities/showNotesList/ui/NotesList";
+import NotesListPerDay from "../../entities/showNotesList/ui/noteList/NotesListPerDay";
 import style from "./styles/notesStyles.module.scss";
 function Notes() {
   return (
@@ -6,7 +6,7 @@ function Notes() {
       <div className={style.notes__container}>
         <div className={style.notes__content}>
           <p>Notes page</p>
-          <NotesList />
+          <NotesListPerDay />
         </div>
       </div>
     </section>

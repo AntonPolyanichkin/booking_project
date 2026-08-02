@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import style from "./styles/loginStyles.module.scss";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { formValidation } from "./schema/yupSchema";
+import { formValidation } from "./schema/loginSchema";
 import { useLogin } from "@/features/auth/model/useLogin";
 import { useNavigate } from "react-router";
 import { useSignUp } from "@/features/auth/model/useSignUp";

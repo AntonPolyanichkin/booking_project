@@ -1,14 +1,22 @@
-import NotesList from "@/entities/showNotesList/ui/NotesList";
+import NotesListPerDay from "@/entities/showNotesList/ui/noteList/NotesListPerDay";
 import CalendarPageHeader from "../CalendarPageHeader/CalendarPageHeader";
 import CalendarPageInfo from "../CalendarPageInfo/CalendarPageInfo";
 import styles from "./styles/calendarStyles.module.scss";
 import BasicDateCalendar from "../CalendarBlock/BasicDateCalendar";
 import StatusInfoBlock from "@/widgets/statusInfoBlock/StatusInfoBlock";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ShowAddClientModal } from "@/shared/contexts/showAddClientModal";
-import AddClientModal from "@/features/addClient/ui/addClientModal/AddClientModal";
+import AddClientModal from "@/features/addNote/ui/addClientModal/AddClientModal";
+import dayjs from "dayjs";
+import "dayjs/locale/uk";
+import { useGetAllNotesQuery } from "@/entities/showNotesList/model/getNotesListApi";
 function CalendarPage() {
   const [showModal, setShowModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(dayjs().locale("uk"));
+  const { data: notes = [] } = useGetAllNotesQuery();
+  const notesForSelectedDay = useMemo(() => notes?.filter((noteDay) => dayjs(noteDay.date).isSame(selectedDate, "day")), [notes, selectedDate]);
+  console.log("notesForSelectedDay--------", notesForSelectedDay);
+  console.log("selectedDate--------", selectedDate.format("	MMMM D, YYYY"));
   return (
     <section className={styles.calendar}>
       <div className={styles["calendar__container"]}>
@@ -16,13 +24,13 @@ function CalendarPage() {
           <ShowAddClientModal value={{ setShowModal }}>
             <CalendarPageHeader />
           </ShowAddClientModal>
-          <CalendarPageInfo />
+          <CalendarPageInfo currentDay={selectedDate.format("dd, MMM D")} notesList={notesForSelectedDay} />
           <div className={styles["grid-container"]}>
             <div className={styles["grid-container__item"]}>
-              <BasicDateCalendar />
+              <BasicDateCalendar value={selectedDate} onChange={setSelectedDate} />
             </div>
             <div className={styles["grid-container__item"]}>
-              <NotesList />
+              <NotesListPerDay notesForSelectedDay={notesForSelectedDay} />
             </div>
             <div className={styles["grid-container__item"]}>
               <StatusInfoBlock />

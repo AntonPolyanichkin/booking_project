@@ -35,17 +35,16 @@ class DbOperations {
 
     const data = docs.length ? docs.map((doc) => ({ id: doc.id, ...doc.data() })) : [];
 
-    return { data };
+    return docs.length ? docs.map((doc) => ({ id: doc.id, ...doc.data() })) : [];
   }
 
   async getById(id) {
     const snap = await getDoc(doc(this.collectionRef, id));
-	 if(!snap.exists()){
-		return null
-	 }
-	 else{
-		return {id: snap.id, ...snap.data()}
-	 }
+    if (!snap.exists()) {
+      return null;
+    } else {
+      return { id: snap.id, ...snap.data() };
+    }
   }
 
   async setWithId(id, data) {
