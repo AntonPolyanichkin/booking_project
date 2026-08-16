@@ -6,9 +6,8 @@ import { formValidation } from "./schema/loginSchema";
 import { useLogin } from "@/features/auth/model/useLogin";
 import { useNavigate } from "react-router";
 import { useSignUp } from "@/features/auth/model/useSignUp";
-import { createPlainUserObj, useGoogleAuthMutation, userDb } from "@/features/auth/api/authApi";
+import { useGoogleAuthMutation } from "@/features/auth/api/authApi";
 import { frontRoutes } from "@/app/routes/frontRoutes/frontRoutes";
-import { useDispatch } from "react-redux";
 import AuthModal from "@/shared/ui/modal/authModal/authModal";
 function Login() {
   const [placeholder, setPlaceholder] = useState("••••••••");
@@ -19,7 +18,6 @@ function Login() {
   const { handleSignApi, isLoading: isSignUpLoading, isError: isSignError } = useSignUp();
   const [googleAuth, { isLoading: isGoogleAuthLoading, isError: isGoogleAuthError }] = useGoogleAuthMutation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const startAnimation = () => {
     const dots = ["•", "••", "•••", "••••", "•••••", "••••••", "•••••••", "••••••••", ""];
     let i = 0;
@@ -59,7 +57,9 @@ function Login() {
     }
   };
   useEffect(() => {
-    if (isLoginError) setIsOpen(true);
+    if (isLoginError) {
+      setIsOpen(true);
+    }
   }, [isLoginError]);
   const handleClose = () => {
     setIsOpen(false);
@@ -109,12 +109,24 @@ function Login() {
               <form className={style.form} onSubmit={handleSubmit(handleLogin)}>
                 <label className={style.form__label}>
                   <p>Пошта</p>
-                  <input type="email" className={style.form__input} {...register("email")} placeholder="somemail@gmail.com" />
+                  <input
+                    type="email"
+                    className={style.form__input}
+                    {...register("email")}
+                    placeholder="somemail@gmail.com"
+                  />
                 </label>
                 {errors.email && <p className={style.form__error}>{errors.email.message}</p>}
                 <label className={style.form__label}>
                   <p>Пароль</p>
-                  <input type="password" className={style.form__input} {...register("password")} placeholder={placeholder} onFocus={stopAnimation} onBlur={startAnimation} />
+                  <input
+                    type="password"
+                    className={style.form__input}
+                    {...register("password")}
+                    placeholder={placeholder}
+                    onFocus={stopAnimation}
+                    onBlur={startAnimation}
+                  />
                 </label>
                 {errors.password && <p className={style.form__error}>{errors.password.message}</p>}
                 <div className={style.form__btnContainer}>
@@ -124,7 +136,11 @@ function Login() {
                   <button type="button" className={style.form__googleLogin} onClick={handleGoogleAuth}>
                     Sign in with Google
                   </button>
-                  <button type="button" className={style.form__sing} onClick={() => setLogin((prev) => (prev ? false : true))}>
+                  <button
+                    type="button"
+                    className={style.form__sing}
+                    onClick={() => setLogin((prev) => (prev ? false : true))}
+                  >
                     {login ? "Немає акаунт? Зарєструватись" : "Увійти"}
                   </button>
                 </div>

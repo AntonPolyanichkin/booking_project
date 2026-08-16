@@ -1,8 +1,8 @@
 import { useDeleteNoteMutation } from "@/features/deleteNote/model/deleteNoteApi";
 import Note from "../../../../widgets/note/note/Note";
-import styles from "./styles/noteList.module.scss";
+import styles from "./styles/notesListPerDay.module.scss";
 import { useEditNoteStatusMutation } from "@/features/editNoteStatus/model/editNoteStatusApi";
-function NotesList({ notesForSelectedDay }) {
+function NotesListPerDay({ notesForSelectedDay }) {
   const [deleteNote] = useDeleteNoteMutation();
   const [editNoteStatus] = useEditNoteStatusMutation();
   if (notesForSelectedDay?.length === 0) {
@@ -25,4 +25,4 @@ function NotesList({ notesForSelectedDay }) {
   );
 }
 
-export default NotesList;
+export default NotesListPerDay;

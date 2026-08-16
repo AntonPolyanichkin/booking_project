@@ -1,7 +1,15 @@
 import { role } from "@/app/routes/role/role";
 import DbOperations from "@/shared/service/DbOperations";
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 
 export function createPlainUserObj(user) {
@@ -78,7 +86,7 @@ export const authApi = createApi({
         const auth = getAuth();
         try {
           const newUser = await createUserWithEmailAndPassword(auth, email, password);
-          const setUser = await userDb.setWithId(newUser.user.uid, { email: newUser.user.email, role: role.user });
+          // const setUser = await userDb.setWithId(newUser.user.uid, { email: newUser.user.email, role: role.user });
           //  await userDb.add("users", { ...newUser.user });
           return {
             data: {
@@ -125,4 +133,5 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation, useRefreshQuery, useLogoutMutation, useSignUpMutation, useGoogleAuthMutation } = authApi;
+export const { useLoginMutation, useRefreshQuery, useLogoutMutation, useSignUpMutation, useGoogleAuthMutation } =
+  authApi;

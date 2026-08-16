@@ -1,4 +1,4 @@
-import NotesListPerDay from "@/entities/showNotesList/ui/noteList/NotesListPerDay";
+import NotesListPerDay from "@/entities/showNotesList/ui/notesListPerDay/NotesListPerDay";
 import CalendarPageHeader from "../CalendarPageHeader/CalendarPageHeader";
 import CalendarPageInfo from "../CalendarPageInfo/CalendarPageInfo";
 import styles from "./styles/calendarStyles.module.scss";
@@ -14,7 +14,13 @@ function CalendarPage() {
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(dayjs().locale("uk"));
   const { data: notes = [] } = useGetAllNotesQuery();
-  const notesForSelectedDay = useMemo(() => notes?.filter((noteDay) => dayjs(noteDay.date).isSame(selectedDate, "day")), [notes, selectedDate]);
+  const notesForSelectedDay = useMemo(
+    () =>
+      notes?.filter((noteDay) =>
+        dayjs(noteDay.date).isSame(selectedDate, "day"),
+      ),
+    [notes, selectedDate],
+  );
   console.log("notesForSelectedDay--------", notesForSelectedDay);
   console.log("selectedDate--------", selectedDate.format("	MMMM D, YYYY"));
   return (
@@ -24,10 +30,16 @@ function CalendarPage() {
           <ShowAddClientModal value={{ setShowModal }}>
             <CalendarPageHeader />
           </ShowAddClientModal>
-          <CalendarPageInfo currentDay={selectedDate.format("dd, MMM D")} notesList={notesForSelectedDay} />
+          <CalendarPageInfo
+            currentDay={selectedDate.format("dd, MMM D")}
+            notesList={notesForSelectedDay}
+          />
           <div className={styles["grid-container"]}>
             <div className={styles["grid-container__item"]}>
-              <BasicDateCalendar value={selectedDate} onChange={setSelectedDate} />
+              <BasicDateCalendar
+                value={selectedDate}
+                onChange={setSelectedDate}
+              />
             </div>
             <div className={styles["grid-container__item"]}>
               <NotesListPerDay notesForSelectedDay={notesForSelectedDay} />
@@ -38,7 +50,10 @@ function CalendarPage() {
           </div>
         </div>
       </div>
-      <ShowAddClientModal value={{ setShowModal }}> {showModal && <AddClientModal />}</ShowAddClientModal>
+      <ShowAddClientModal value={{ setShowModal }}>
+       
+        {showModal && <AddClientModal />}
+      </ShowAddClientModal>
     </section>
   );
 }

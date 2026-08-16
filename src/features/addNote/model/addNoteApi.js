@@ -6,7 +6,7 @@ export const addNote = api.injectEndpoints({
     addNote: builder.mutation({
       queryFn: async (credentials) => {
         try {
-          await notesDb.add({ ...credentials, status: "Заплановано" });
+          await notesDb.add({ ...credentials, status: "заплановано" });
           return { data: true };
         } catch (error) {
           return { error };

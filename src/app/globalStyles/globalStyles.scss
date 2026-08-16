@@ -2,21 +2,21 @@
 @use "_var.scss" as *;
 html,
 body {
-	overflow: hidden;
-	width: 100%;
-	position: relative;
+  // overflow: hidden;
+  width: 100%;
+  position: relative;
 }
 body {
-	background-color: #fff;
-	font-family: "Inter", sans-serif;
-	touch-action: none;
-	overscroll-behavior: none;
+  background-color: #fff;
+  font-family: "Inter", sans-serif;
+  touch-action: none;
+  overscroll-behavior: none;
 }
 
 [class*="__container"] {
-	padding-left: 0.9375rem;
-	padding-right: 0.9375rem;
-	max-width: 90rem;
-	margin: 0 auto;
-	overflow: hidden;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+  max-width: 90rem;
+  margin: 0 auto;
+  overflow: hidden;
 }

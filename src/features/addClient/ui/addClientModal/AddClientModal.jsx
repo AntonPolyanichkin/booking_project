@@ -7,36 +7,47 @@ import { ShowAddClientModal } from "@/shared/contexts/showAddClientModal";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addClientShema } from "../../model/shema/addClientShema";
+import { useAddNoteMutation } from "@/features/addNote/model/addNoteApi";
 function AddClientModal() {
   const nameId = useId();
   const phoneId = useId();
   const procedureId = useId();
   const priceId = useId();
-  const statusId = useId();
   const dataId = useId();
   const timeId = useId();
   const noteId = useId();
+  const [addNote] = useAddNoteMutation();
 
   const userRole = useSelector((state) => state.authSlice.user.role);
   const isPrivileged = userRole === role.admin || userRole === role.manager;
   const { setShowModal } = useContext(ShowAddClientModal);
   const handleCloseMenu = () => setShowModal(false);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm(yupResolver(addClientShema));
+  } = useForm({ resolver: yupResolver(addClientShema), context: { isPrivileged } });
+
+  const onSubmit = (data) => {
+    addNote(data);
+    handleCloseMenu();
+  };
   return createPortal(
     <div className={styles["add-client-modal__overlay"]}>
       <div className={styles["add-client-modal__body"]}>
         <h2 className={styles["add-client-modal__title"]}>Новий клієнт</h2>
-        <form className={styles["add-client-modal__form"]} onSubmit={handleSubmit}>
+        <form className={styles["add-client-modal__form"]} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles["add-client-modal__field"]}>
             <label className={styles["add-client-modal__label"]} htmlFor={nameId}>
               Ім'я клієнта
             </label>
-            <input className={styles["add-client-modal__input"]} type="text" name={"name"} id={nameId} placeholder="Введіть ім'я" minLength={3} {...register("name")} />
+            <input
+              className={styles["add-client-modal__input"]}
+              type="text"
+              name={"name"}
+              id={nameId}
+              {...register("name")}
+            />
             {errors.name && <p className={styles.form__error}>{errors.name.message}</p>}
           </div>
 
@@ -44,7 +55,14 @@ function AddClientModal() {
             <label className={styles["add-client-modal__label"]} htmlFor={phoneId}>
               Телефон
             </label>
-            <input className={styles["add-client-modal__input"]} type="tel" name={"phone"} id={phoneId} placeholder="+380 XX XXX XX XX" pattern="/^\+380\d{9}$/" {...register("phone")} />
+            <input
+              className={styles["add-client-modal__input"]}
+              type="tel"
+              name={"phone"}
+              id={phoneId}
+              placeholder="+380 XX XXX XX XX"
+              {...register("phone")}
+            />
             {errors.phone && <p className={styles.form__error}>{errors.phone.message}</p>}
           </div>
 
@@ -52,7 +70,14 @@ function AddClientModal() {
             <label className={styles["add-client-modal__label"]} htmlFor={procedureId}>
               Процедура
             </label>
-            <input className={styles["add-client-modal__input"]} type="text" name="procedure" id={procedureId} placeholder="Назва процедури" minLength={3} {...register("procedure")} />
+            <input
+              className={styles["add-client-modal__input"]}
+              type="text"
+              name="procedure"
+              id={procedureId}
+              placeholder="Назва процедури"
+              {...register("procedure")}
+            />
             {errors.procedure && <p className={styles.form__error}>{errors.procedure.message}</p>}
           </div>
 
@@ -62,7 +87,14 @@ function AddClientModal() {
                 <label className={styles["add-client-modal__label"]} htmlFor={priceId}>
                   Ціна (грн)
                 </label>
-                <input className={styles["add-client-modal__input"]} type="number" name="price" id={priceId} placeholder="0" min={3} {...register("price", { valueAsNumber: true })} />
+                <input
+                  className={styles["add-client-modal__input"]}
+                  type="number"
+                  name="price"
+                  id={priceId}
+                  placeholder="0"
+                  {...register("price", { valueAsNumber: true })}
+                />
                 {errors.price && <p className={styles.form__error}>{errors.price.message}</p>}
               </div>
             </div>
@@ -73,14 +105,28 @@ function AddClientModal() {
               <label className={styles["add-client-modal__label"]} htmlFor={dataId}>
                 Дата
               </label>
-              <input className={styles["add-client-modal__input"]} type="date" name={"date"} id={dataId} placeholder="дд.мм.рррр" {...register("date", { valueAsDate: true })} />
+              <input
+                className={styles["add-client-modal__input"]}
+                type="date"
+                name={"date"}
+                id={dataId}
+                placeholder="дд.мм.рррр"
+                {...register("date", { valueAsDate: true })}
+              />
               {errors.date && <p className={styles.form__error}>{errors.date.message}</p>}
             </div>
             <div className={styles["add-client-modal__field"]}>
               <label className={styles["add-client-modal__label"]} htmlFor={timeId}>
                 Час
               </label>
-              <input className={styles["add-client-modal__input"]} type="time" name="time" id={timeId} placeholder="гг:хх" {...register("time")} />
+              <input
+                className={styles["add-client-modal__input"]}
+                type="time"
+                name="time"
+                id={timeId}
+                placeholder="гг:хх"
+                {...register("time")}
+              />
               {errors.time && <p className={styles.form__error}>{errors.time.message}</p>}
             </div>
           </div>
@@ -89,15 +135,29 @@ function AddClientModal() {
             <label className={styles["add-client-modal__label"]} htmlFor={noteId}>
               Нотатки
             </label>
-            <input className={styles["add-client-modal__input"]} type="text" name="notice" id={noteId} placeholder="Додаткова інформація" {...register("notice")} />
+            <input
+              className={styles["add-client-modal__input"]}
+              type="text"
+              name="notice"
+              id={noteId}
+              placeholder="Додаткова інформація"
+              {...register("notice")}
+            />
             {errors.notice && <p className={styles.form__error}>{errors.notice.message}</p>}
           </div>
 
           <div className={styles["add-client-modal__actions"]}>
-            <button type="button" className={`${styles["add-client-modal__button"]} ${styles["add-client-modal__button--secondary"]}`} onClick={handleCloseMenu}>
+            <button
+              type="button"
+              className={`${styles["add-client-modal__button"]} ${styles["add-client-modal__button--secondary"]}`}
+              onClick={handleCloseMenu}
+            >
               Скасувати
             </button>
-            <button type="submit" className={`${styles["add-client-modal__button"]} ${styles["add-client-modal__button--primary"]}`}>
+            <button
+              type="submit"
+              className={`${styles["add-client-modal__button"]} ${styles["add-client-modal__button--primary"]}`}
+            >
               Зберегти
             </button>
           </div>

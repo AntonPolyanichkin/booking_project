@@ -18,7 +18,8 @@ const notesListApi = api.injectEndpoints({
       },
       providesTags: ["notesList"],
     }),
+   
   }),
 });
 
-export const { useGetAllNotesQuery } = notesListApi;
+export const { useGetAllNotesQuery,getPaginatedNotesByMonthQuery } = notesListApi;
