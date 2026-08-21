@@ -1,7 +1,7 @@
 import { role } from "@/app/routes/role/role";
 import { useContext, useId } from "react";
 import { useSelector } from "react-redux";
-import styles from "./styles/AddClientModal.module.scss";
+import styles from "./styles/addClientModal.module.scss";
 import { createPortal } from "react-dom";
 import { ShowAddClientModal } from "@/shared/contexts/showAddClientModal";
 import { useForm } from "react-hook-form";
