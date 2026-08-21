@@ -2,7 +2,7 @@ import CalendarPage from "@/pages/calendar/CalendarPage/CalendarPage";
 import { role } from "./role/role";
 import MainLayout from "@/app/layoutes/mainLayout/MainLayout";
 import Notes from "@/pages/notes/Notes";
-import Statistics from "@/pages/statistics/Statistics";
+import Statistics from "@/pages/statistics/statisticPage/Statistics";
 import NotFound from "@/pages/NotFound";
 import LoginPage from "@/pages/loginPage/LoginPage";
 import { frontRoutes } from "./frontRoutes/frontRoutes";
@@ -73,6 +73,7 @@ export const routes = [
   },
   {
     path: frontRoutes.loginLayout,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,

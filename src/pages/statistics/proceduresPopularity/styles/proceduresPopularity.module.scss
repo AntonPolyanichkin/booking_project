@@ -1,0 +1,60 @@
+.procedures {
+  background-color: #0f0f0f;
+  color: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-top: 2rem;
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 1.5rem;
+    color: #ffffff;
+
+    position: relative;
+    padding-bottom: 0.75rem;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 2.5rem;
+      height: 0.1875rem;
+      background-color: #ffffff;
+      border-radius: 0.125rem;
+    }
+  }
+  &__item {
+    padding: 0.875rem 1.125rem;
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 0.625rem;
+    border: 0.0625rem solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+   &__text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  &__name {
+    font-weight: 600;
+    color: #ffffff;
+  }
+}
+
+@media (max-width: 48rem) {
+  .procedures {
+    padding: 1.25rem;
+
+    &__title {
+      font-size: 1.25rem;
+    }
+  }
+}

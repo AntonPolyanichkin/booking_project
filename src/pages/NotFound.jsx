@@ -1,5 +1,5 @@
 function NotFound() {
-  return <section>You don't have an access</section>;
+  return <section>Сторінка не відповідає</section>;
 }
 
 export default NotFound;

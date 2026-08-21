@@ -1,5 +1,5 @@
 function Forbidden() {
-  return <section>Forbidden</section>;
+  return <section>Заборонено доступ</section>;
 }
 
 export default Forbidden;

@@ -10,15 +10,14 @@ import AddClientModal from "@/features/addNote/ui/addClientModal/AddClientModal"
 import dayjs from "dayjs";
 import "dayjs/locale/uk";
 import { useGetAllNotesQuery } from "@/entities/showNotesList/model/getNotesListApi";
+import Fallback from "@/shared/ui/fallback/Fallback";
+import { ErrorBoundary } from "react-error-boundary";
 function CalendarPage() {
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(dayjs().locale("uk"));
   const { data: notes = [] } = useGetAllNotesQuery();
   const notesForSelectedDay = useMemo(
-    () =>
-      notes?.filter((noteDay) =>
-        dayjs(noteDay.date).isSame(selectedDate, "day"),
-      ),
+    () => notes?.filter((noteDay) => dayjs(noteDay.date).isSame(selectedDate, "day")),
     [notes, selectedDate],
   );
   console.log("notesForSelectedDay--------", notesForSelectedDay);
@@ -30,30 +29,27 @@ function CalendarPage() {
           <ShowAddClientModal value={{ setShowModal }}>
             <CalendarPageHeader />
           </ShowAddClientModal>
-          <CalendarPageInfo
-            currentDay={selectedDate.format("dd, MMM D")}
-            notesList={notesForSelectedDay}
-          />
+          <CalendarPageInfo currentDay={selectedDate.format("dd, MMM D")} notesList={notesForSelectedDay} />
           <div className={styles["grid-container"]}>
             <div className={styles["grid-container__item"]}>
-              <BasicDateCalendar
-                value={selectedDate}
-                onChange={setSelectedDate}
-              />
+              <ErrorBoundary FallbackComponent={Fallback}>
+                <BasicDateCalendar value={selectedDate} onChange={setSelectedDate} />
+              </ErrorBoundary>
             </div>
             <div className={styles["grid-container__item"]}>
-              <NotesListPerDay notesForSelectedDay={notesForSelectedDay} />
+              <ErrorBoundary FallbackComponent={Fallback}>
+                <NotesListPerDay notesForSelectedDay={notesForSelectedDay} />
+              </ErrorBoundary>
             </div>
             <div className={styles["grid-container__item"]}>
-              <StatusInfoBlock />
+              <ErrorBoundary FallbackComponent={Fallback}>
+                <StatusInfoBlock />
+              </ErrorBoundary>
             </div>
           </div>
         </div>
       </div>
-      <ShowAddClientModal value={{ setShowModal }}>
-       
-        {showModal && <AddClientModal />}
-      </ShowAddClientModal>
+      <ShowAddClientModal value={{ setShowModal }}>{showModal && <AddClientModal />}</ShowAddClientModal>
     </section>
   );
 }

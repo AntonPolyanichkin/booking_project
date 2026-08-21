@@ -1,0 +1,25 @@
+.notes {
+  background-color: #ffffff;
+  color: #0f0f0f;
+  border: 0.0625rem solid #e0e0e0;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-top: 1.5rem;
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: #0f0f0f;
+  }
+}
+
+@media (max-width: 48rem) {
+  .notes {
+    padding: 1.25rem;
+
+    &__title {
+      font-size: 1.25rem;
+    }
+  }
+}

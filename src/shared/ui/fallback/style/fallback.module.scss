@@ -1,0 +1,69 @@
+
+.fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 28rem;
+  margin: 2rem auto;
+  padding: 1.75rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #e0e0e0;
+  border-left: 0.25rem solid #d64545;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.06);
+
+  &__title {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: #0f0f0f;
+  }
+
+  &__message {
+    width: 100%;
+    margin: 0;
+    padding: 0.875rem 1rem;
+    background-color: #fdecec;
+    border-radius: 0.5rem;
+    color: #b91c1c;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: auto;
+  }
+
+  &__button {
+    align-self: flex-start;
+    padding: 0.625rem 1.25rem;
+    background-color: #0f0f0f;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+
+    &:hover {
+      background-color: #2a2a2a;
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+}
+
+@media (max-width: 30rem) {
+  .fallback {
+    margin: 1.25rem;
+    padding: 1.25rem;
+
+    &__button {
+      align-self: stretch;
+      text-align: center;
+    }
+  }
+}
