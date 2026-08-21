@@ -8,7 +8,8 @@ import { useNavigate } from "react-router";
 import { useSignUp } from "@/features/auth/model/useSignUp";
 import { useGoogleAuthMutation } from "@/features/auth/api/authApi";
 import { frontRoutes } from "@/app/routes/frontRoutes/frontRoutes";
-import AuthModal from "@/shared/ui/modal/AuthModal/AuthModal";
+import AuthModal from "@/shared/ui/modal/authModal/AuthModal";
+
 function Login() {
   const [placeholder, setPlaceholder] = useState("••••••••");
   const [login, setLogin] = useState(true);
