@@ -16,7 +16,18 @@ function NotesListPerDay({ notesForSelectedDay }) {
           {notesForSelectedDay?.map((note) => (
             <li key={note.id}>
               {/* <Note dateTime={note.date} name={note.name} lastName={note.lastName} procedure={note.procedure} phoneNumber={note.phoneNumber} additionalNotes={note.additionalNotes} status={note.status} /> */}
-              <Note id={note.id} date={note.date} time={note.time} name={note.name} procedure={note.procedure} phoneNumber={note.phone} additionalNotes={note.notice} status={note.status} onStatusChange={editNoteStatus} onDelete={deleteNote} />
+              <Note
+                id={note.id}
+                date={note.date}
+                time={note.time}
+                name={note.name}
+                procedure={note.procedure}
+                phoneNumber={note.phone}
+                additionalNotes={note.notice}
+                status={note.status}
+                onStatusChange={editNoteStatus}
+                onDelete={deleteNote}
+              />
             </li>
           ))}
         </ul>

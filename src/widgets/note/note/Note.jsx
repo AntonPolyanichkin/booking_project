@@ -1,5 +1,7 @@
 import { STATUS_OPTIONS } from "@/shared/constans/statusConstans";
 import styles from "./styles/note.module.scss";
+import { useSelector } from "react-redux";
+import { role } from "@/app/routes/role/role";
 
 function Note({ id, date, time, name, procedure, phoneNumber, additionalNotes, status, onStatusChange, onDelete }) {
   const noteDate = new Date(date);
@@ -7,8 +9,8 @@ function Note({ id, date, time, name, procedure, phoneNumber, additionalNotes, s
     day: "numeric",
     month: "long",
   });
+  const user = useSelector((state) => state.authSlice.user);
   const formattedDate = formatter.format(noteDate);
-
   const handleStatusChange = (event) => {
     onStatusChange?.({ id, status: event.target.value });
   };
@@ -21,7 +23,7 @@ function Note({ id, date, time, name, procedure, phoneNumber, additionalNotes, s
     <div className={styles.note}>
       <div className={styles.top}>
         <p className={styles.time}>{`${formattedDate}, ${time}`}</p>
-        {onDelete && (
+        {(user?.role === role.admin || user?.role === role.manager) && onDelete && (
           <button type="button" className={styles.deleteButton} onClick={handleDelete} aria-label="Видалити запис">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
